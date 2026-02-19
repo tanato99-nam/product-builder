@@ -1,35 +1,48 @@
-// Add JS here
+document.addEventListener('DOMContentLoaded', () => {
+    const generateBtn = document.getElementById('generate-btn');
+    const numberElements = document.querySelectorAll('.number');
+    const themeSwitch = document.getElementById('checkbox');
 
-const form = document.getElementById('contact-form');
-const submitBtn = document.getElementById('submit-btn');
-const successMsg = document.getElementById('success-msg');
-const errorMsg = document.getElementById('error-msg');
-
-form.addEventListener('submit', async (e) => {
-  e.preventDefault();
-
-  submitBtn.disabled = true;
-  submitBtn.textContent = '전송 중...';
-  successMsg.hidden = true;
-  errorMsg.hidden = true;
-
-  try {
-    const response = await fetch(form.action, {
-      method: 'POST',
-      body: new FormData(form),
-      headers: { Accept: 'application/json' },
+    // Theme switcher event listener
+    themeSwitch.addEventListener('change', () => {
+        if (themeSwitch.checked) {
+            document.body.classList.add('light-mode');
+            localStorage.setItem('theme', 'light');
+        } else {
+            document.body.classList.remove('light-mode');
+            localStorage.setItem('theme', 'dark');
+        }
     });
 
-    if (response.ok) {
-      form.reset();
-      successMsg.hidden = false;
+    // Check for saved theme preference
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'light') {
+        document.body.classList.add('light-mode');
+        themeSwitch.checked = true;
     } else {
-      errorMsg.hidden = false;
+        document.body.classList.remove('light-mode');
+        themeSwitch.checked = false;
     }
-  } catch {
-    errorMsg.hidden = false;
-  } finally {
-    submitBtn.disabled = false;
-    submitBtn.textContent = '문의 보내기';
-  }
+
+    generateBtn.addEventListener('click', () => {
+        generateAndDisplayNumbers();
+    });
+
+    function generateAndDisplayNumbers() {
+        const lottoNumbers = new Set();
+        while (lottoNumbers.size < 6) {
+            lottoNumbers.add(Math.floor(Math.random() * 45) + 1);
+        }
+
+        const sortedNumbers = Array.from(lottoNumbers).sort((a, b) => a - b);
+
+        numberElements.forEach((element, index) => {
+            element.textContent = '';
+            element.classList.remove('generated');
+            setTimeout(() => {
+                element.textContent = sortedNumbers[index];
+                element.classList.add('generated');
+            }, index * 200);
+        });
+    }
 });
