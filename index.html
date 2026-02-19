@@ -3,28 +3,262 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>로또 번호 추첨기</title>
-    <link rel="stylesheet" href="style.css">
+    <title>제휴 문의</title>
+    <style>
+        @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Pretendard', -apple-system, sans-serif;
+            background-color: #f5f7fa;
+            color: #333;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 60px 16px;
+        }
+
+        .container {
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+            padding: 48px;
+            width: 100%;
+            max-width: 560px;
+        }
+
+        header {
+            margin-bottom: 36px;
+        }
+
+        header h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: #1a1a1a;
+        }
+
+        header p {
+            color: #777;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: #444;
+        }
+
+        .required {
+            color: #e53e3e;
+            margin-left: 2px;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 11px 14px;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 0.95rem;
+            color: #333;
+            background: #fafafa;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            outline: none;
+        }
+
+        input::placeholder,
+        textarea::placeholder {
+            color: #bbb;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: #0d6efd;
+            box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.12);
+            background: #fff;
+        }
+
+        select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23888' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 14px center;
+            cursor: pointer;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 130px;
+        }
+
+        button[type="submit"] {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(145deg, #0d6efd, #0a58ca);
+            color: #fff;
+            font-family: inherit;
+            font-size: 1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 8px;
+            transition: opacity 0.2s, transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 14px rgba(13, 110, 253, 0.35);
+        }
+
+        button[type="submit"]:hover:not(:disabled) {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 18px rgba(13, 110, 253, 0.45);
+        }
+
+        button[type="submit"]:active:not(:disabled) {
+            transform: translateY(0);
+        }
+
+        button[type="submit"]:disabled {
+            opacity: 0.65;
+            cursor: not-allowed;
+        }
+
+        .alert {
+            margin-top: 20px;
+            padding: 14px 16px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .alert-success {
+            background: #f0fdf4;
+            color: #166534;
+            border: 1px solid #bbf7d0;
+        }
+
+        .alert-error {
+            background: #fef2f2;
+            color: #991b1b;
+            border: 1px solid #fecaca;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 32px 20px;
+            }
+
+            header h1 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="container">
-        <div class="theme-switch-wrapper">
-            <label class="theme-switch" for="checkbox">
-                <input type="checkbox" id="checkbox" />
-                <div class="slider round"></div>
-            </label>
+        <header>
+            <h1>제휴 문의</h1>
+            <p>파트너십 관련 문의 사항을 남겨주시면 빠르게 연락드리겠습니다.</p>
+        </header>
+
+        <form id="contact-form" action="https://formspree.io/f/xvzbqlnj" method="POST">
+            <div class="form-group">
+                <label for="name">이름<span class="required">*</span></label>
+                <input type="text" id="name" name="name" placeholder="홍길동" required>
+            </div>
+
+            <div class="form-group">
+                <label for="company">회사명<span class="required">*</span></label>
+                <input type="text" id="company" name="company" placeholder="(주)회사이름" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email">이메일<span class="required">*</span></label>
+                <input type="email" id="email" name="email" placeholder="example@company.com" required>
+            </div>
+
+            <div class="form-group">
+                <label for="phone">연락처</label>
+                <input type="tel" id="phone" name="phone" placeholder="010-0000-0000">
+            </div>
+
+            <div class="form-group">
+                <label for="partnership-type">제휴 유형<span class="required">*</span></label>
+                <select id="partnership-type" name="partnership_type" required>
+                    <option value="" disabled selected>유형을 선택해주세요</option>
+                    <option value="마케팅 제휴">마케팅 제휴</option>
+                    <option value="기술 파트너십">기술 파트너십</option>
+                    <option value="유통/판매 제휴">유통/판매 제휴</option>
+                    <option value="투자 문의">투자 문의</option>
+                    <option value="기타">기타</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="message">문의 내용<span class="required">*</span></label>
+                <textarea id="message" name="message" placeholder="제휴 제안 내용을 자유롭게 작성해주세요." required></textarea>
+            </div>
+
+            <button type="submit" id="submit-btn">문의 보내기</button>
+        </form>
+
+        <div id="success-msg" class="alert alert-success" hidden>
+            문의가 성공적으로 접수되었습니다. 빠른 시일 내에 연락드리겠습니다.
         </div>
-        <h1>로또 번호 추첨기</h1>
-        <div class="lotto-numbers">
-            <span class="number"></span>
-            <span class="number"></span>
-            <span class="number"></span>
-            <span class="number"></span>
-            <span class="number"></span>
-            <span class="number"></span>
+        <div id="error-msg" class="alert alert-error" hidden>
+            전송 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.
         </div>
-        <button id="generate-btn">번호 추첨</button>
     </div>
-    <script src="main.js"></script>
+
+    <script>
+        const form = document.getElementById('contact-form');
+        const submitBtn = document.getElementById('submit-btn');
+        const successMsg = document.getElementById('success-msg');
+        const errorMsg = document.getElementById('error-msg');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            submitBtn.disabled = true;
+            submitBtn.textContent = '전송 중...';
+            successMsg.hidden = true;
+            errorMsg.hidden = true;
+
+            try {
+                const response = await fetch(form.action, {
+                    method: 'POST',
+                    body: new FormData(form),
+                    headers: { Accept: 'application/json' },
+                });
+
+                if (response.ok) {
+                    form.reset();
+                    successMsg.hidden = false;
+                } else {
+                    errorMsg.hidden = false;
+                }
+            } catch {
+                errorMsg.hidden = false;
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = '문의 보내기';
+            }
+        });
+    </script>
 </body>
 </html>
