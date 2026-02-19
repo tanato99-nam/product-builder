@@ -19,9 +19,10 @@
             color: #333;
             min-height: 100vh;
             display: flex;
-            justify-content: center;
-            align-items: flex-start;
+            flex-direction: column;
+            align-items: center;
             padding: 60px 16px;
+            gap: 24px;
         }
 
         .container {
@@ -158,6 +159,24 @@
             border: 1px solid #fecaca;
         }
 
+        .disqus-section {
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+            padding: 48px;
+            width: 100%;
+            max-width: 560px;
+        }
+
+        .disqus-section h2 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 1.5px solid #e2e8f0;
+        }
+
         @media (max-width: 480px) {
             .container {
                 padding: 32px 20px;
@@ -165,6 +184,10 @@
 
             header h1 {
                 font-size: 1.5rem;
+            }
+
+            .disqus-section {
+                padding: 32px 20px;
             }
         }
     </style>
@@ -224,6 +247,21 @@
             전송 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.
         </div>
     </div>
+
+    <div class="disqus-section">
+        <h2>댓글</h2>
+        <div id="disqus_thread"></div>
+    </div>
+
+    <script>
+        (function() {
+            var d = document, s = d.createElement('script');
+            s.src = 'https://productbuilder2-3.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();
+    </script>
+    <noscript>댓글을 보려면 <a href="https://disqus.com/?ref_noscript">JavaScript를 활성화</a>해주세요.</noscript>
 
     <script>
         const form = document.getElementById('contact-form');
