@@ -305,6 +305,169 @@
 
         .toast.show { transform: translateX(-50%) translateY(0); }
 
+        /* API Key Section */
+        .api-key-section {
+            background: #f5f3ff;
+            border: 1.5px solid #ddd6fe;
+            border-radius: 14px;
+            padding: 14px;
+        }
+
+        .api-key-section .section-title { margin-bottom: 10px; }
+
+        .api-key-row {
+            display: flex;
+            gap: 8px;
+        }
+
+        .api-key-input {
+            flex: 1;
+            padding: 9px 12px;
+            border: 1.5px solid #ddd6fe;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 0.82rem;
+            background: #fff;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .api-key-input:focus { border-color: #7c3aed; }
+
+        .btn-save-key {
+            padding: 9px 14px;
+            background: #7c3aed;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 0.82rem;
+            font-weight: 700;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: background 0.2s;
+        }
+
+        .btn-save-key:hover { background: #6d28d9; }
+
+        .api-key-hint {
+            font-size: 0.75rem;
+            color: #8b5cf6;
+            margin-top: 6px;
+            line-height: 1.5;
+        }
+
+        .key-saved-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            background: #dcfce7;
+            color: #166534;
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 3px 10px;
+            border-radius: 20px;
+            margin-top: 6px;
+        }
+
+        /* AI Generate Button */
+        .btn-ai {
+            padding: 9px 18px;
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 0.88rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 4px 12px rgba(79,70,229,0.35);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-ai:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(79,70,229,0.45); }
+        .btn-ai:disabled { opacity: 0.55; cursor: not-allowed; }
+
+        /* Loading Overlay */
+        .loading-overlay {
+            display: none;
+            position: absolute;
+            inset: 0;
+            background: rgba(255,255,255,0.88);
+            border-radius: 12px;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+            z-index: 10;
+        }
+
+        .loading-overlay.show { display: flex; }
+
+        .spinner {
+            width: 44px;
+            height: 44px;
+            border: 4px solid #e9d5ff;
+            border-top-color: #7c3aed;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .loading-overlay p {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: #5b21b6;
+        }
+
+        /* AI Result */
+        .ai-result-section {
+            margin-top: 16px;
+            background: #f5f3ff;
+            border: 2px solid #c4b5fd;
+            border-radius: 16px;
+            padding: 16px;
+        }
+
+        .ai-result-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .ai-result-header h3 {
+            font-size: 0.95rem;
+            font-weight: 800;
+            color: #5b21b6;
+        }
+
+        .ai-badge {
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+            color: #fff;
+            font-size: 0.7rem;
+            font-weight: 800;
+            padding: 3px 10px;
+            border-radius: 20px;
+            letter-spacing: 0.5px;
+        }
+
+        #ai-result-img {
+            width: 100%;
+            border-radius: 10px;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .ai-result-actions {
+            display: flex;
+            gap: 8px;
+        }
+
         /* Contact Form & Disqus */
         .bottom-section {
             max-width: 1100px;
@@ -465,6 +628,10 @@
                     <p>사진을 업로드하면 여기에 표시됩니다</p>
                 </div>
                 <canvas id="main-canvas" style="display:none;"></canvas>
+                <div class="loading-overlay" id="loading-overlay">
+                    <div class="spinner"></div>
+                    <p>AI가 헤어스타일을 적용 중입니다...</p>
+                </div>
             </div>
 
             <div class="controls-section" id="controls-section" style="display:none;">
@@ -485,12 +652,44 @@
                 </div>
                 <button class="btn btn-secondary" id="reset-btn">초기화</button>
                 <button class="btn btn-download" id="download-btn">💾 저장</button>
+                <button class="btn btn-ai" id="ai-btn" disabled>✨ AI 생성</button>
+            </div>
+
+            <!-- AI Result -->
+            <div class="ai-result-section" id="ai-result-section" style="display:none;">
+                <div class="ai-result-header">
+                    <h3>AI 생성 결과</h3>
+                    <span class="ai-badge">Gemini AI</span>
+                </div>
+                <img id="ai-result-img" alt="AI 헤어스타일 결과">
+                <div class="ai-result-actions">
+                    <button class="btn btn-download" id="ai-download-btn">💾 AI 결과 저장</button>
+                    <button class="btn btn-secondary" id="ai-close-btn">닫기</button>
+                </div>
             </div>
         </div>
 
         <!-- Right: Sidebar -->
         <div>
             <div class="card sidebar-card">
+                <!-- API Key -->
+                <div class="api-key-section">
+                    <div class="section-title">🔑 Gemini API 키</div>
+                    <div class="api-key-row">
+                        <input type="password" class="api-key-input" id="api-key-input"
+                               placeholder="AIza...">
+                        <button class="btn-save-key" id="save-key-btn">저장</button>
+                    </div>
+                    <div class="api-key-hint">
+                        <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener"
+                           style="color:#7c3aed;">Google AI Studio</a>에서 무료로 발급받으세요.<br>
+                        키는 브라우저에만 저장되며 외부로 전송되지 않습니다.
+                    </div>
+                    <div class="key-saved-badge" id="key-saved-badge" style="display:none;">
+                        ✓ API 키 저장됨
+                    </div>
+                </div>
+
                 <div>
                     <div class="section-title">💇 헤어스타일 선택</div>
                     <div class="hairstyle-grid" id="hairstyle-grid"></div>
@@ -503,10 +702,11 @@
 
                 <div class="tip-box">
                     <strong>💡 사용 방법</strong>
-                    1. 내 사진을 업로드<br>
-                    2. 원하는 헤어스타일 선택<br>
-                    3. 크기·위치 슬라이더로 조정<br>
-                    4. 저장 버튼으로 다운로드
+                    1. Gemini API 키 입력 후 저장<br>
+                    2. 내 사진을 업로드<br>
+                    3. 헤어스타일·색상 선택<br>
+                    4. <strong>✨ AI 생성</strong> 버튼 클릭<br>
+                    5. 결과 저장
                 </div>
             </div>
         </div>
@@ -770,6 +970,7 @@
                 sizeSlider.value = 100; ySlider.value = 0; xSlider.value = 0;
                 updateSliderLabels();
                 render();
+                updateAiBtn();
                 showToast('사진이 업로드되었습니다! 헤어스타일을 선택하세요.');
             };
             img.src = ev.target.result;
@@ -809,6 +1010,7 @@
         document.querySelectorAll('.hairstyle-btn').forEach(b => b.classList.remove('active'));
         document.querySelector(`[data-id="${hs.id}"]`).classList.add('active');
         render();
+        updateAiBtn();
     }
 
     // ── Select Color ──────────────────────────────────────────────────────────
@@ -870,6 +1072,151 @@
         clearTimeout(toastTimer);
         toastTimer = setTimeout(() => toastEl.classList.remove('show'), 2800);
     }
+
+    // ── API Key ───────────────────────────────────────────────────────────────
+    const apiKeyInput    = document.getElementById('api-key-input');
+    const saveKeyBtn     = document.getElementById('save-key-btn');
+    const keySavedBadge  = document.getElementById('key-saved-badge');
+    const aiBtn          = document.getElementById('ai-btn');
+    const loadingOverlay = document.getElementById('loading-overlay');
+    const aiResultSec    = document.getElementById('ai-result-section');
+    const aiResultImg    = document.getElementById('ai-result-img');
+
+    let geminiApiKey = localStorage.getItem('gemini_api_key') || '';
+
+    function updateKeyUI() {
+        if (geminiApiKey) {
+            keySavedBadge.style.display = 'inline-flex';
+            apiKeyInput.placeholder = '••••••••••••••••';
+        } else {
+            keySavedBadge.style.display = 'none';
+        }
+        updateAiBtn();
+    }
+
+    function updateAiBtn() {
+        aiBtn.disabled = !(userImage && currentHairstyle && geminiApiKey);
+    }
+
+    saveKeyBtn.addEventListener('click', () => {
+        const val = apiKeyInput.value.trim();
+        if (!val) { showToast('API 키를 입력해주세요.'); return; }
+        geminiApiKey = val;
+        localStorage.setItem('gemini_api_key', geminiApiKey);
+        apiKeyInput.value = '';
+        updateKeyUI();
+        showToast('API 키가 저장되었습니다!');
+    });
+
+    updateKeyUI();
+
+    // ── AI Generate ───────────────────────────────────────────────────────────
+    const hairstylePrompts = {
+        'short-clean':    '짧고 깔끔한 숏컷 (short clean cut)',
+        'wavy-long':      '긴 웨이브 머리 (long wavy hair)',
+        'bob':            '턱선까지 오는 단발 밥컷 (chin-length bob cut)',
+        'curly':          '풍성한 곱슬 컬리 헤어 (voluminous curly hair)',
+        'ponytail':       '높게 묶은 포니테일 (high ponytail)',
+        'buzz':           '매우 짧은 버즈컷 (very short buzz cut)',
+        'mohawk':         '모히칸 스타일 (mohawk style)',
+        'side-part':      '옆 가르마 사이드파트 (side part)',
+        'twin-tails':     '양쪽으로 묶은 트윈테일 (twin tails / pigtails)',
+        'afro':           '풍성한 아프로 헤어 (afro hair)',
+        'bun':            '위로 틀어올린 쪽머리 번 (top bun / updo)',
+        'straight-long':  '길고 곧은 생머리 (long straight hair)',
+    };
+
+    const colorPrompts = {
+        '#1a0800': '블랙 (jet black)',
+        '#3b1a08': '다크 브라운 (dark brown)',
+        '#6b3a2a': '브라운 (brown)',
+        '#a0522d': '카라멜 브라운 (caramel brown)',
+        '#c8962e': '골든 블론드 (golden blonde)',
+        '#e8dcc8': '플래티넘 블론드 (platinum blonde)',
+        '#f5f0e8': '화이트 (white / silver-white)',
+        '#8b1a1a': '딥 레드 (deep red)',
+        '#6d2b3d': '버건디 (burgundy)',
+        '#e8638c': '핑크 (pastel pink)',
+        '#7c5cbf': '퍼플 (purple)',
+        '#2d5fa6': '블루 (blue)',
+        '#2d7a4f': '그린 (green)',
+        '#a8a8b8': '실버 (silver gray)',
+    };
+
+    aiBtn.addEventListener('click', async () => {
+        if (!userImage || !currentHairstyle || !geminiApiKey) return;
+
+        const hsPrompt    = hairstylePrompts[currentHairstyle.id] || currentHairstyle.name;
+        const colorPrompt = colorPrompts[currentColor] || currentColor;
+
+        // Convert canvas image to base64 JPEG
+        const base64 = canvas.toDataURL('image/jpeg', 0.92).split(',')[1];
+
+        const prompt = `이 사람의 헤어스타일을 "${hsPrompt}"로, 머리 색상을 "${colorPrompt}"으로 자연스럽게 바꿔주세요. 얼굴 특징, 피부톤, 눈, 코, 입 등은 원본 그대로 유지하고, 오직 헤어스타일과 색상만 변경해주세요. 결과는 현실적이고 자연스럽게 보여야 합니다.`;
+
+        aiBtn.disabled = true;
+        aiBtn.textContent = '생성 중...';
+        loadingOverlay.classList.add('show');
+        aiResultSec.style.display = 'none';
+
+        try {
+            const res = await fetch(
+                `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-preview-image-generation:generateContent?key=${geminiApiKey}`,
+                {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{
+                            role: 'user',
+                            parts: [
+                                { text: prompt },
+                                { inline_data: { mime_type: 'image/jpeg', data: base64 } }
+                            ]
+                        }],
+                        generationConfig: { responseModalities: ['IMAGE', 'TEXT'] }
+                    })
+                }
+            );
+
+            if (!res.ok) {
+                const err = await res.json();
+                throw new Error(err.error?.message || `HTTP ${res.status}`);
+            }
+
+            const data = await res.json();
+            const parts = data.candidates?.[0]?.content?.parts || [];
+            const imgPart = parts.find(p => p.inline_data?.mime_type?.startsWith('image/'));
+
+            if (!imgPart) throw new Error('이미지를 생성하지 못했습니다.');
+
+            aiResultImg.src = `data:${imgPart.inline_data.mime_type};base64,${imgPart.inline_data.data}`;
+            aiResultSec.style.display = 'block';
+            aiResultSec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            showToast('AI 헤어스타일 생성 완료!');
+
+        } catch (e) {
+            showToast(`오류: ${e.message}`);
+            console.error(e);
+        } finally {
+            loadingOverlay.classList.remove('show');
+            aiBtn.disabled = false;
+            aiBtn.innerHTML = '✨ AI 생성';
+        }
+    });
+
+    // ── AI Result Download ────────────────────────────────────────────────────
+    document.getElementById('ai-download-btn').addEventListener('click', () => {
+        const a = document.createElement('a');
+        a.href = aiResultImg.src;
+        a.download = 'ai-hairstyle-result.png';
+        a.click();
+        showToast('AI 결과가 저장되었습니다!');
+    });
+
+    document.getElementById('ai-close-btn').addEventListener('click', () => {
+        aiResultSec.style.display = 'none';
+    });
+
     </script>
     <!-- Disqus -->
     <script>
