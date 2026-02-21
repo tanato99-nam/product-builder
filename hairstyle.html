@@ -652,7 +652,7 @@
                 </div>
                 <button class="btn btn-secondary" id="reset-btn">초기화</button>
                 <button class="btn btn-download" id="download-btn">💾 저장</button>
-                <button class="btn btn-ai" id="ai-btn" disabled>✨ AI 생성</button>
+                <button class="btn btn-ai" id="ai-btn">✨ AI 생성</button>
             </div>
 
             <!-- AI Result -->
@@ -1095,7 +1095,7 @@
     }
 
     function updateAiBtn() {
-        aiBtn.disabled = !(userImage && currentHairstyle && geminiApiKey);
+        // 버튼은 항상 활성화 — 클릭 시 조건을 안내
     }
 
     saveKeyBtn.addEventListener('click', () => {
@@ -1144,7 +1144,9 @@
     };
 
     aiBtn.addEventListener('click', async () => {
-        if (!userImage || !currentHairstyle || !geminiApiKey) return;
+        if (!geminiApiKey) { showToast('먼저 Gemini API 키를 입력하고 저장해주세요.'); return; }
+        if (!userImage)    { showToast('먼저 사진을 업로드해주세요.'); return; }
+        if (!currentHairstyle) { showToast('헤어스타일을 선택해주세요.'); return; }
 
         const hsPrompt    = hairstylePrompts[currentHairstyle.id] || currentHairstyle.name;
         const colorPrompt = colorPrompts[currentColor] || currentColor;
