@@ -305,9 +305,133 @@
 
         .toast.show { transform: translateX(-50%) translateY(0); }
 
+        /* Contact Form & Disqus */
+        .bottom-section {
+            max-width: 1100px;
+            margin: 24px auto 0;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .bottom-card {
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+            padding: 32px;
+        }
+
+        .bottom-card h2 {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: #1a1a1a;
+            margin-bottom: 6px;
+        }
+
+        .bottom-card > p {
+            color: #777;
+            font-size: 0.88rem;
+            margin-bottom: 24px;
+            line-height: 1.6;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: #444;
+        }
+
+        .required { color: #e53e3e; margin-left: 2px; }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px 13px;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 0.92rem;
+            color: #333;
+            background: #fafafa;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            outline: none;
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder { color: #bbb; }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: #7c3aed;
+            box-shadow: 0 0 0 3px rgba(124,58,237,0.12);
+            background: #fff;
+        }
+
+        .form-group select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23888' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 13px center;
+            cursor: pointer;
+        }
+
+        .form-group textarea { resize: vertical; min-height: 110px; }
+
+        .btn-submit {
+            width: 100%;
+            padding: 13px;
+            background: linear-gradient(135deg, #7c3aed, #6d28d9);
+            color: #fff;
+            font-family: inherit;
+            font-size: 0.95rem;
+            font-weight: 700;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 4px;
+            transition: opacity 0.2s, transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 14px rgba(124,58,237,0.35);
+        }
+
+        .btn-submit:hover:not(:disabled) {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 18px rgba(124,58,237,0.45);
+        }
+
+        .btn-submit:disabled { opacity: 0.65; cursor: not-allowed; }
+
+        .alert {
+            margin-top: 16px;
+            padding: 12px 14px;
+            border-radius: 8px;
+            font-size: 0.88rem;
+            line-height: 1.5;
+        }
+
+        .alert-success { background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; }
+        .alert-error   { background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; }
+
+        .disqus-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 1.5px solid #e2e8f0;
+        }
+
         @media (max-width: 768px) {
             .main-layout { grid-template-columns: 1fr; }
             .hairstyle-grid { grid-template-columns: repeat(4, 1fr); }
+            .bottom-section { grid-template-columns: 1fr; }
         }
 
         @media (max-width: 480px) {
@@ -385,6 +509,63 @@
                     4. 저장 버튼으로 다운로드
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- Contact Form + Disqus -->
+    <div class="bottom-section">
+        <!-- 제휴 문의 -->
+        <div class="bottom-card">
+            <h2>제휴 문의</h2>
+            <p>파트너십 관련 문의 사항을 남겨주시면 빠르게 연락드리겠습니다.</p>
+
+            <form id="contact-form" action="https://formspree.io/f/xvzbqlnj" method="POST">
+                <div class="form-group">
+                    <label for="name">이름<span class="required">*</span></label>
+                    <input type="text" id="name" name="name" placeholder="홍길동" required>
+                </div>
+                <div class="form-group">
+                    <label for="company">회사명<span class="required">*</span></label>
+                    <input type="text" id="company" name="company" placeholder="(주)회사이름" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">이메일<span class="required">*</span></label>
+                    <input type="email" id="email" name="email" placeholder="example@company.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">연락처</label>
+                    <input type="tel" id="phone" name="phone" placeholder="010-0000-0000">
+                </div>
+                <div class="form-group">
+                    <label for="partnership-type">제휴 유형<span class="required">*</span></label>
+                    <select id="partnership-type" name="partnership_type" required>
+                        <option value="" disabled selected>유형을 선택해주세요</option>
+                        <option value="마케팅 제휴">마케팅 제휴</option>
+                        <option value="기술 파트너십">기술 파트너십</option>
+                        <option value="유통/판매 제휴">유통/판매 제휴</option>
+                        <option value="투자 문의">투자 문의</option>
+                        <option value="기타">기타</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="message">문의 내용<span class="required">*</span></label>
+                    <textarea id="message" name="message" placeholder="제휴 제안 내용을 자유롭게 작성해주세요." required></textarea>
+                </div>
+                <button type="submit" class="btn-submit" id="submit-btn">문의 보내기</button>
+            </form>
+
+            <div id="success-msg" class="alert alert-success" hidden>
+                문의가 성공적으로 접수되었습니다. 빠른 시일 내에 연락드리겠습니다.
+            </div>
+            <div id="error-msg" class="alert alert-error" hidden>
+                전송 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.
+            </div>
+        </div>
+
+        <!-- Disqus 댓글 -->
+        <div class="bottom-card">
+            <div class="disqus-title">댓글</div>
+            <div id="disqus_thread"></div>
         </div>
     </div>
 
@@ -689,6 +870,51 @@
         clearTimeout(toastTimer);
         toastTimer = setTimeout(() => toastEl.classList.remove('show'), 2800);
     }
+    </script>
+    <!-- Disqus -->
+    <script>
+        (function() {
+            var d = document, s = d.createElement('script');
+            s.src = 'https://productbuilder2-3.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();
+    </script>
+    <noscript>댓글을 보려면 <a href="https://disqus.com/?ref_noscript">JavaScript를 활성화</a>해주세요.</noscript>
+
+    <!-- Contact Form -->
+    <script>
+        const form       = document.getElementById('contact-form');
+        const submitBtn  = document.getElementById('submit-btn');
+        const successMsg = document.getElementById('success-msg');
+        const errorMsg   = document.getElementById('error-msg');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            submitBtn.disabled = true;
+            submitBtn.textContent = '전송 중...';
+            successMsg.hidden = true;
+            errorMsg.hidden = true;
+
+            try {
+                const response = await fetch(form.action, {
+                    method: 'POST',
+                    body: new FormData(form),
+                    headers: { Accept: 'application/json' },
+                });
+                if (response.ok) {
+                    form.reset();
+                    successMsg.hidden = false;
+                } else {
+                    errorMsg.hidden = false;
+                }
+            } catch {
+                errorMsg.hidden = false;
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = '문의 보내기';
+            }
+        });
     </script>
 </body>
 </html>
