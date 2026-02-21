@@ -688,6 +688,17 @@
                     <div class="key-saved-badge" id="key-saved-badge" style="display:none;">
                         ✓ API 키 저장됨
                     </div>
+                    <div style="margin-top:12px;">
+                        <label style="font-size:0.8rem;font-weight:700;color:#5b21b6;display:block;margin-bottom:6px;">🤖 이미지 생성 모델</label>
+                        <select id="model-select" class="api-key-input" style="width:100%;">
+                            <option value="gemini-2.0-flash-preview-image-generation">gemini-2.0-flash-preview-image-generation</option>
+                            <option value="gemini-2.0-flash-exp">gemini-2.0-flash-exp</option>
+                            <option value="gemini-3-flash-preview">gemini-3-flash-preview</option>
+                            <option value="gemini-3-pro-image-preview">gemini-3-pro-image-preview</option>
+                            <option value="imagen-4.0-generate-preview-05-20">imagen-4.0-generate-preview-05-20</option>
+                            <option value="imagen-3.0-generate-001">imagen-3.0-generate-001</option>
+                        </select>
+                    </div>
                 </div>
 
                 <div>
@@ -1144,17 +1155,23 @@
     };
 
     aiBtn.addEventListener('click', async () => {
-        if (!geminiApiKey) { showToast('먼저 Gemini API 키를 입력하고 저장해주세요.'); return; }
-        if (!userImage)    { showToast('먼저 사진을 업로드해주세요.'); return; }
+        if (!geminiApiKey)     { showToast('먼저 Gemini API 키를 입력하고 저장해주세요.'); return; }
+        if (!userImage)        { showToast('먼저 사진을 업로드해주세요.'); return; }
         if (!currentHairstyle) { showToast('헤어스타일을 선택해주세요.'); return; }
 
+        const model       = document.getElementById('model-select').value;
         const hsPrompt    = hairstylePrompts[currentHairstyle.id] || currentHairstyle.name;
         const colorPrompt = colorPrompts[currentColor] || currentColor;
 
-        // Convert canvas image to base64 JPEG
-        const base64 = canvas.toDataURL('image/jpeg', 0.92).split(',')[1];
+        // 사진을 base64 JPEG로 변환
+        const base64 = canvas.toDataURL('image/jpeg', 0.9).split(',')[1];
 
-        const prompt = `이 사람의 헤어스타일을 "${hsPrompt}"로, 머리 색상을 "${colorPrompt}"으로 자연스럽게 바꿔주세요. 얼굴 특징, 피부톤, 눈, 코, 입 등은 원본 그대로 유지하고, 오직 헤어스타일과 색상만 변경해주세요. 결과는 현실적이고 자연스럽게 보여야 합니다.`;
+        const prompt =
+            `이 사람의 헤어스타일을 "${hsPrompt}"로, 머리 색상을 "${colorPrompt}"으로 ` +
+            `자연스럽고 사실적으로 변경해주세요. ` +
+            `얼굴 특징(눈, 코, 입, 피부톤, 표정)은 원본 그대로 유지하고, ` +
+            `오직 헤어스타일과 머리 색상만 변경해주세요. ` +
+            `결과 이미지는 원본과 동일한 구도와 조명을 유지해야 합니다.`;
 
         aiBtn.disabled = true;
         aiBtn.textContent = '생성 중...';
@@ -1162,36 +1179,71 @@
         aiResultSec.style.display = 'none';
 
         try {
-            const res = await fetch(
-                `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-preview-image-generation:generateContent?key=${geminiApiKey}`,
-                {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        contents: [{
-                            role: 'user',
-                            parts: [
-                                { text: prompt },
-                                { inline_data: { mime_type: 'image/jpeg', data: base64 } }
-                            ]
-                        }],
-                        generationConfig: { responseModalities: ['IMAGE', 'TEXT'] }
-                    })
-                }
-            );
+            const isImagen = model.startsWith('imagen');
+            let res, data, imgPart;
 
-            if (!res.ok) {
-                const err = await res.json();
-                throw new Error(err.error?.message || `HTTP ${res.status}`);
+            if (isImagen) {
+                // ── Imagen 모델: predict 엔드포인트 ──
+                res = await fetch(
+                    `https://generativelanguage.googleapis.com/v1beta/models/${model}:predict?key=${geminiApiKey}`,
+                    {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            instances: [{
+                                prompt: prompt,
+                                referenceImages: [{
+                                    referenceType: 'REFERENCE_TYPE_SUBJECT',
+                                    referenceId: 1,
+                                    referenceImage: { bytesBase64Encoded: base64 }
+                                }]
+                            }],
+                            parameters: { sampleCount: 1 }
+                        })
+                    }
+                );
+                if (!res.ok) {
+                    const err = await res.json();
+                    throw new Error(err.error?.message || `HTTP ${res.status}`);
+                }
+                data = await res.json();
+                const pred = data.predictions?.[0];
+                if (!pred?.bytesBase64Encoded) throw new Error('이미지를 생성하지 못했습니다.');
+                imgPart = { mime_type: 'image/png', data: pred.bytesBase64Encoded };
+
+            } else {
+                // ── Gemini 모델: generateContent 엔드포인트 ──
+                res = await fetch(
+                    `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${geminiApiKey}`,
+                    {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            contents: [{
+                                role: 'user',
+                                parts: [
+                                    { text: prompt },
+                                    { inline_data: { mime_type: 'image/jpeg', data: base64 } }
+                                ]
+                            }],
+                            generationConfig: {
+                                responseModalities: ['TEXT', 'IMAGE']
+                            }
+                        })
+                    }
+                );
+                if (!res.ok) {
+                    const err = await res.json();
+                    throw new Error(err.error?.message || `HTTP ${res.status}`);
+                }
+                data = await res.json();
+                const parts = data.candidates?.[0]?.content?.parts || [];
+                const found = parts.find(p => p.inline_data?.mime_type?.startsWith('image/'));
+                if (!found) throw new Error('이미지를 생성하지 못했습니다.');
+                imgPart = found.inline_data;
             }
 
-            const data = await res.json();
-            const parts = data.candidates?.[0]?.content?.parts || [];
-            const imgPart = parts.find(p => p.inline_data?.mime_type?.startsWith('image/'));
-
-            if (!imgPart) throw new Error('이미지를 생성하지 못했습니다.');
-
-            aiResultImg.src = `data:${imgPart.inline_data.mime_type};base64,${imgPart.inline_data.data}`;
+            aiResultImg.src = `data:${imgPart.mime_type};base64,${imgPart.data}`;
             aiResultSec.style.display = 'block';
             aiResultSec.scrollIntoView({ behavior: 'smooth', block: 'start' });
             showToast('AI 헤어스타일 생성 완료!');
