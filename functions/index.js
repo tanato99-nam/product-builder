@@ -8,7 +8,7 @@ const ALLOWED_ORIGINS = [
 ];
 
 exports.geminiProxy = onRequest(
-  { region: "asia-northeast3", cors: ALLOWED_ORIGINS },
+  { region: "asia-northeast3", invoker: "public", cors: ALLOWED_ORIGINS },
   async (req, res) => {
     if (req.method !== "POST") {
       return res.status(405).json({ error: "Method not allowed" });
