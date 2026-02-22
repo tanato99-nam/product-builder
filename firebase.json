@@ -7,7 +7,17 @@
       ".git/**",
       ".idx/**",
       ".vscode/**",
-      "install.cmd"
+      "install.cmd",
+      "functions/**"
+    ],
+    "rewrites": [
+      {
+        "source": "/api/gemini",
+        "function": "geminiProxy"
+      }
     ]
+  },
+  "functions": {
+    "source": "functions"
   }
 }

@@ -915,9 +915,6 @@
         onLoad: (img) => { refImage = img; }
     });
 
-    // ── API Key ───────────────────────────────────────────────────────────────
-    const geminiApiKey = 'AIzaSyC4eZYNvgmbehxERihO1zPETnQLZZZ3hM8';
-
     // ── AI Generate ───────────────────────────────────────────────────────────
     aiBtn.addEventListener('click', async () => {
         if (!myImage)  { showToast('내 사진을 업로드해주세요.'); return; }
@@ -939,26 +936,24 @@
         aiResultSec.style.display = 'none';
 
         try {
-            const res = await fetch(
-                `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${geminiApiKey}`,
-                {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        contents: [{
-                            role: 'user',
-                            parts: [
-                                { inlineData: { mimeType: myImage.mimeType,  data: myImage.data  } },
-                                { inlineData: { mimeType: refImage.mimeType, data: refImage.data } },
-                                { text: prompt }
-                            ]
-                        }],
-                        generationConfig: {
-                            responseModalities: ['TEXT', 'IMAGE']
-                        }
-                    })
-                }
-            );
+            const res = await fetch('/api/gemini', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    model,
+                    contents: [{
+                        role: 'user',
+                        parts: [
+                            { inlineData: { mimeType: myImage.mimeType,  data: myImage.data  } },
+                            { inlineData: { mimeType: refImage.mimeType, data: refImage.data } },
+                            { text: prompt }
+                        ]
+                    }],
+                    generationConfig: {
+                        responseModalities: ['TEXT', 'IMAGE']
+                    }
+                })
+            });
 
             if (!res.ok) {
                 const err = await res.json();
