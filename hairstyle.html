@@ -664,8 +664,8 @@
                     <div style="margin-top:12px;">
                         <label style="font-size:0.8rem;font-weight:700;color:#5b21b6;display:block;margin-bottom:6px;">🤖 이미지 생성 모델</label>
                         <select id="model-select" class="api-key-input" style="width:100%;">
-                            <option value="gemini-2.0-flash" selected>gemini-2.0-flash (권장)</option>
-                            <option value="gemini-2.0-flash-exp">gemini-2.0-flash-exp</option>
+                            <option value="gemini-2.5-flash-image" selected>gemini-2.5-flash-image (권장)</option>
+                            <option value="gemini-3-pro-image-preview">gemini-3-pro-image-preview</option>
                         </select>
                     </div>
                 </div>
@@ -905,8 +905,8 @@
                         contents: [{
                             role: 'user',
                             parts: [
-                                { inline_data: { mime_type: myImage.mimeType,  data: myImage.data  } },
-                                { inline_data: { mime_type: refImage.mimeType, data: refImage.data } },
+                                { inlineData: { mimeType: myImage.mimeType,  data: myImage.data  } },
+                                { inlineData: { mimeType: refImage.mimeType, data: refImage.data } },
                                 { text: prompt }
                             ]
                         }],
@@ -925,7 +925,7 @@
             const data  = await res.json();
             console.log('Gemini response:', JSON.stringify(data, null, 2));
             const parts = data.candidates?.[0]?.content?.parts || [];
-            const found = parts.find(p => p.inline_data?.mime_type?.startsWith('image/'));
+            const found = parts.find(p => p.inlineData?.mimeType?.startsWith('image/'));
             if (!found) {
                 const textPart = parts.find(p => p.text);
                 const reason   = data.candidates?.[0]?.finishReason || '';
@@ -937,8 +937,8 @@
                 throw new Error(msg);
             }
 
-            const imgPart = found.inline_data;
-            aiResultImg.src = `data:${imgPart.mime_type};base64,${imgPart.data}`;
+            const imgPart = found.inlineData;
+            aiResultImg.src = `data:${imgPart.mimeType};base64,${imgPart.data}`;
             aiResultSec.style.display = 'block';
             aiResultSec.scrollIntoView({ behavior: 'smooth', block: 'start' });
             showToast('AI 헤어스타일 변환 완료!');
