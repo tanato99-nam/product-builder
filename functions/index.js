@@ -2,9 +2,13 @@ const { onRequest } = require("firebase-functions/v2/https");
 
 const GEMINI_API_KEY = "AIzaSyC4eZYNvgmbehxERihO1zPETnQLZZZ3hM8";
 const ALLOWED_MODELS = ["gemini-2.5-flash-image", "gemini-3-pro-image-preview"];
+const ALLOWED_ORIGINS = [
+  "https://tuberank-explorer-2ala7.web.app",
+  "https://tuberank-explorer-2ala7.firebaseapp.com",
+];
 
 exports.geminiProxy = onRequest(
-  { region: "asia-northeast3", cors: false },
+  { region: "asia-northeast3", cors: ALLOWED_ORIGINS },
   async (req, res) => {
     if (req.method !== "POST") {
       return res.status(405).json({ error: "Method not allowed" });

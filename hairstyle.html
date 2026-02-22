@@ -936,7 +936,7 @@
         aiResultSec.style.display = 'none';
 
         try {
-            const res = await fetch('/api/gemini', {
+            const res = await fetch('https://asia-northeast3-tuberank-explorer-2ala7.cloudfunctions.net/geminiProxy', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({

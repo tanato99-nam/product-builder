@@ -9,13 +9,6 @@
       ".vscode/**",
       "install.cmd",
       "functions/**"
-    ],
-    "rewrites": [
-      {
-        "source": "/api/gemini",
-        "function": "geminiProxy",
-        "region": "asia-northeast3"
-      }
     ]
   },
   "functions": {
