@@ -1,6 +1,6 @@
 const { onRequest } = require("firebase-functions/v2/https");
 
-const GEMINI_API_KEY = "AIzaSyC4eZYNvgmbehxERihO1zPETnQLZZZ3hM8";
+const GEMINI_API_KEY = "AIzaSyB_ipwUb2Rvl6lxXgMMl_2VuFXis0msFwo";
 const ALLOWED_MODELS = ["gemini-2.5-flash-image", "gemini-3-pro-image-preview"];
 exports.geminiProxy = onRequest(
   { region: "asia-northeast3", invoker: "public", cors: true },
