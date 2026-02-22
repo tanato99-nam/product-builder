@@ -21,11 +21,21 @@ body {
     background-color: var(--bg-color-dark);
     color: var(--text-color-dark);
     display: flex;
-    justify-content: center;
-    align-items: center;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
     min-height: 100vh;
     margin: 0;
     transition: background-color 0.3s, color 0.3s;
+}
+
+/* Center area for the lotto widget */
+.lotto-main {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 56px 20px 40px;
 }
 
 body.light-mode {

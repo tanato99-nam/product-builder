@@ -7,8 +7,69 @@
     <title>헤어스타일 변환 - 참고 사진으로 내 헤어스타일 바꾸기</title>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6372982351593840"
          crossorigin="anonymous"></script>
+    <meta name="description" content="AI 헤어스타일 변환기 - 내 사진과 원하는 헤어스타일 참고 사진을 올리면 Google Gemini AI가 헤어스타일을 변환해드립니다. 미용실 가기 전 미리 체험해보세요.">
+    <meta name="keywords" content="AI 헤어스타일, 헤어스타일 변환, Gemini AI, 헤어 시뮬레이터, AI 사진 편집">
     <style>
         @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+
+        /* ── Nav ── */
+        .site-nav {
+            background: #fff;
+            border-bottom: 1px solid #e5e7eb;
+            position: sticky;
+            top: 0;
+            z-index: 600;
+        }
+        .nav-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .nav-logo {
+            font-size: 1.0rem;
+            font-weight: 800;
+            color: #7c3aed;
+            text-decoration: none;
+        }
+        .nav-menu { display: flex; gap: 4px; }
+        .nav-menu a {
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #4b5563;
+            text-decoration: none;
+            transition: background 0.15s, color 0.15s;
+        }
+        .nav-menu a:hover { background: #f3e8ff; color: #7c3aed; }
+        .nav-menu a.active { background: #f3e8ff; color: #7c3aed; }
+
+        /* ── Footer ── */
+        .site-footer {
+            background: #111827;
+            color: #9ca3af;
+            padding: 40px 20px;
+            font-size: 0.875rem;
+        }
+        .footer-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 14px;
+            text-align: center;
+        }
+        .footer-logo { font-size: 1.05rem; font-weight: 800; color: #fff; }
+        .footer-desc { color: #6b7280; font-size: 0.82rem; line-height: 1.7; max-width: 460px; }
+        .footer-links { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; }
+        .footer-links a { color: #9ca3af; text-decoration: none; transition: color 0.15s; }
+        .footer-links a:hover { color: #fff; }
+        .footer-copy { color: #4b5563; font-size: 0.78rem; }
 
         *, *::before, *::after {
             box-sizing: border-box;
@@ -578,6 +639,17 @@
     </style>
 </head>
 <body>
+    <!-- ── Navigation ── -->
+    <nav class="site-nav">
+        <div class="nav-inner">
+            <a href="index.html" class="nav-logo">🤖 AI 도구 모음</a>
+            <div class="nav-menu">
+                <a href="lotto.html">🎰 로또 추첨기</a>
+                <a href="hairstyle.html" class="active">💇 헤어스타일 변환</a>
+            </div>
+        </div>
+    </nav>
+
     <div class="page-header">
         <h1>✂️ 헤어스타일 변환</h1>
         <p>내 사진과 원하는 헤어스타일 사진을 올리면 AI가 헤어스타일을 바꿔드려요</p>
@@ -977,6 +1049,21 @@
         })();
     </script>
     <noscript>댓글을 보려면 <a href="https://disqus.com/?ref_noscript">JavaScript를 활성화</a>해주세요.</noscript>
+
+    <!-- ── Footer ── -->
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <div class="footer-logo">🤖 AI 도구 모음</div>
+            <p class="footer-desc">누구나 쉽게 AI 기술을 활용할 수 있도록 다양한 도구를 무료로 제공합니다.<br>업로드한 사진은 AI 처리 후 서버에 저장되지 않습니다.</p>
+            <div class="footer-links">
+                <a href="index.html">홈</a>
+                <a href="lotto.html">로또 추첨기</a>
+                <a href="hairstyle.html">헤어스타일 변환</a>
+                <a href="privacy.html">개인정보처리방침</a>
+            </div>
+            <p class="footer-copy">© 2025 AI 도구 모음. Google Gemini API를 활용합니다.</p>
+        </div>
+    </footer>
 
     <!-- Contact Form -->
     <script>
