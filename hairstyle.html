@@ -733,14 +733,6 @@
         <!-- Right: Sidebar -->
         <div>
             <div class="card sidebar-card">
-                <div style="margin-bottom:4px;">
-                    <label style="font-size:0.8rem;font-weight:700;color:#5b21b6;display:block;margin-bottom:6px;">🤖 이미지 생성 모델</label>
-                    <select id="model-select" class="api-key-input" style="width:100%;padding:9px 12px;border:1.5px solid #ddd6fe;border-radius:8px;font-family:inherit;font-size:0.82rem;background:#fff;outline:none;">
-                        <option value="gemini-2.5-flash-image" selected>gemini-2.5-flash-image (권장)</option>
-                        <option value="gemini-3-pro-image-preview">gemini-3-pro-image-preview</option>
-                    </select>
-                </div>
-
                 <div class="tip-box">
                     <strong>💡 사용 방법</strong>
                     1. <strong>내 사진</strong> 업로드<br>
@@ -920,15 +912,19 @@
         if (!myImage)  { showToast('내 사진을 업로드해주세요.'); return; }
         if (!refImage)     { showToast('헤어스타일 참고 사진을 업로드해주세요.'); return; }
 
-        const model = document.getElementById('model-select').value;
+        const model = 'gemini-3-pro-image-preview';
 
         const prompt =
-            `You are a professional hair stylist AI with image generation capabilities.\n` +
-            `Image 1 is a person. Image 2 shows a hairstyle reference.\n\n` +
-            `Directly generate a NEW photorealistic image of the person from Image 1 wearing the hairstyle from Image 2. ` +
-            `Output the result as an IMAGE modality directly. Do not use any external tools. Do not describe the image. Just output the image.\n` +
-            `Keep the person's face, skin tone, expression, clothing, background, and lighting exactly the same as Image 1. ` +
-            `Only change the hairstyle to match Image 2.`;
+            `You are a professional hair stylist AI.\n` +
+            `Image 1 is the subject person. Image 2 is a hairstyle reference.\n\n` +
+            `Generate a photorealistic image of the person from Image 1 with ONLY the hairstyle changed to match Image 2.\n` +
+            `You MUST preserve ALL of the following from Image 1 EXACTLY as they are:\n` +
+            `- Face, facial features, skin tone, and expression\n` +
+            `- Clothing, outfit, and accessories (glasses, earrings, necklaces, etc.)\n` +
+            `- Body pose and posture\n` +
+            `- Background and lighting\n\n` +
+            `ONLY change: the hair color, hair length, hair style, and hair texture to match the hairstyle in Image 2.\n` +
+            `Do NOT change anything else. Output the result image directly.`;
 
         aiBtn.disabled = true;
         aiBtn.textContent = '생성 중...';
