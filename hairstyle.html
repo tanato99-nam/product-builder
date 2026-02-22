@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="google-adsense-account" content="ca-pub-6372982351593840">
-    <title>헤어스타일 체험 - 내 사진에 다양한 헤어 적용</title>
+    <title>헤어스타일 변환 - 참고 사진으로 내 헤어스타일 바꾸기</title>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6372982351593840"
          crossorigin="anonymous"></script>
     <style>
@@ -43,7 +43,7 @@
 
         .main-layout {
             display: grid;
-            grid-template-columns: 1fr 340px;
+            grid-template-columns: 1fr 300px;
             gap: 20px;
             max-width: 1100px;
             margin: 0 auto;
@@ -56,16 +56,45 @@
             padding: 24px;
         }
 
-        /* Upload Area */
+        /* Upload Pair */
+        .upload-pair {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .upload-zone {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .upload-zone-label {
+            font-size: 0.88rem;
+            font-weight: 800;
+            color: #5b21b6;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .upload-zone-label .badge {
+            background: #f3e8ff;
+            color: #7c3aed;
+            font-size: 0.72rem;
+            padding: 2px 8px;
+            border-radius: 20px;
+        }
+
         .upload-area {
             border: 2.5px dashed #c4b5fd;
             border-radius: 16px;
-            padding: 40px 24px;
+            padding: 20px 16px;
             text-align: center;
             cursor: pointer;
             transition: all 0.2s;
             background: #faf5ff;
-            margin-bottom: 20px;
         }
 
         .upload-area:hover, .upload-area.drag-over {
@@ -73,93 +102,100 @@
             background: #f3e8ff;
         }
 
+        .upload-area.has-image {
+            border-color: #7c3aed;
+            border-style: solid;
+            padding: 0;
+            overflow: hidden;
+        }
+
         .upload-icon {
-            font-size: 3rem;
-            margin-bottom: 12px;
+            font-size: 2rem;
+            margin-bottom: 8px;
         }
 
         .upload-area h3 {
-            font-size: 1.1rem;
+            font-size: 0.92rem;
             font-weight: 700;
             color: #5b21b6;
-            margin-bottom: 6px;
+            margin-bottom: 4px;
         }
 
         .upload-area p {
             color: #8b5cf6;
-            font-size: 0.88rem;
+            font-size: 0.78rem;
         }
 
-        #file-input { display: none; }
+        .file-input { display: none; }
 
-        /* Canvas Area */
-        .canvas-wrapper {
-            position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            background: #f8f7ff;
-            border-radius: 16px;
-            overflow: hidden;
-            min-height: 300px;
-        }
-
-        #main-canvas {
-            max-width: 100%;
-            border-radius: 12px;
+        /* Photo Preview */
+        .photo-preview-img {
+            width: 100%;
+            border-radius: 14px;
             display: block;
-            cursor: crosshair;
+            object-fit: cover;
+            max-height: 280px;
         }
 
-        .canvas-placeholder {
+        .photo-preview-placeholder {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 300px;
-            color: #c4b5fd;
+            padding: 24px 12px;
+            gap: 8px;
+        }
+
+        .photo-preview-placeholder p {
+            font-size: 0.8rem;
+            color: #a78bfa;
+            font-weight: 600;
+        }
+
+        .change-photo-btn {
+            display: block;
+            width: 100%;
+            padding: 6px;
+            text-align: center;
+            background: rgba(124,58,237,0.08);
+            color: #7c3aed;
+            font-size: 0.75rem;
+            font-weight: 700;
+            border: none;
+            border-top: 1px solid rgba(124,58,237,0.15);
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        .change-photo-btn:hover {
+            background: rgba(124,58,237,0.15);
+        }
+
+        /* Arrow indicator */
+        .transform-arrow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8px 0 16px;
             gap: 12px;
         }
 
-        .canvas-placeholder p { font-size: 0.9rem; font-weight: 600; }
+        .transform-arrow span {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #6b7280;
+        }
 
-        /* Controls */
-        .controls-section {
-            margin-top: 16px;
+        .arrow-icon {
+            font-size: 1.5rem;
+        }
+
+        /* Action Area */
+        .action-area {
             display: flex;
             gap: 10px;
+            align-items: center;
             flex-wrap: wrap;
-            align-items: center;
-        }
-
-        .slider-group {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            flex: 1;
-            min-width: 180px;
-        }
-
-        .slider-group label {
-            font-size: 0.8rem;
-            font-weight: 600;
-            color: #6b7280;
-            white-space: nowrap;
-            width: 52px;
-        }
-
-        input[type="range"] {
-            flex: 1;
-            accent-color: #7c3aed;
-            height: 4px;
-        }
-
-        .slider-val {
-            font-size: 0.8rem;
-            color: #7c3aed;
-            font-weight: 700;
-            width: 34px;
-            text-align: right;
         }
 
         .btn {
@@ -200,78 +236,6 @@
             font-weight: 800;
             color: #1f2937;
             margin-bottom: 14px;
-        }
-
-        /* Hairstyle Grid */
-        .hairstyle-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-        }
-
-        .hairstyle-btn {
-            border: 2.5px solid #e5e7eb;
-            border-radius: 14px;
-            padding: 10px 6px 8px;
-            background: #fff;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .hairstyle-btn:hover {
-            border-color: #a78bfa;
-            background: #faf5ff;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(124,58,237,0.15);
-        }
-
-        .hairstyle-btn.active {
-            border-color: #7c3aed;
-            background: #f3e8ff;
-            box-shadow: 0 0 0 3px rgba(124,58,237,0.15);
-        }
-
-        .hairstyle-btn svg {
-            width: 64px;
-            height: 80px;
-            border-radius: 8px;
-        }
-
-        .hairstyle-btn span {
-            font-size: 0.72rem;
-            font-weight: 700;
-            color: #6b7280;
-            text-align: center;
-            line-height: 1.2;
-        }
-
-        .hairstyle-btn.active span { color: #7c3aed; }
-
-        /* Color Picker */
-        .color-grid {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-
-        .color-dot {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            cursor: pointer;
-            border: 3px solid transparent;
-            transition: all 0.2s;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-        }
-
-        .color-dot:hover, .color-dot.active {
-            border-color: #fff;
-            outline: 3px solid #7c3aed;
-            transform: scale(1.15);
         }
 
         /* Tips */
@@ -373,44 +337,55 @@
 
         /* AI Generate Button */
         .btn-ai {
-            padding: 9px 18px;
+            padding: 12px 28px;
             background: linear-gradient(135deg, #4f46e5, #7c3aed);
             color: #fff;
             border: none;
-            border-radius: 10px;
+            border-radius: 12px;
             font-family: inherit;
-            font-size: 0.88rem;
+            font-size: 1rem;
             font-weight: 700;
             cursor: pointer;
             transition: all 0.2s;
-            box-shadow: 0 4px 12px rgba(79,70,229,0.35);
+            box-shadow: 0 4px 16px rgba(79,70,229,0.4);
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
+            width: 100%;
+            justify-content: center;
         }
 
-        .btn-ai:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(79,70,229,0.45); }
+        .btn-ai:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(79,70,229,0.5); }
         .btn-ai:disabled { opacity: 0.55; cursor: not-allowed; }
 
         /* Loading Overlay */
         .loading-overlay {
             display: none;
-            position: absolute;
+            position: fixed;
             inset: 0;
-            background: rgba(255,255,255,0.88);
-            border-radius: 12px;
+            background: rgba(0,0,0,0.45);
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 14px;
-            z-index: 10;
+            gap: 16px;
+            z-index: 1000;
         }
 
         .loading-overlay.show { display: flex; }
 
+        .loading-box {
+            background: #fff;
+            border-radius: 20px;
+            padding: 32px 48px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 14px;
+        }
+
         .spinner {
-            width: 44px;
-            height: 44px;
+            width: 48px;
+            height: 48px;
             border: 4px solid #e9d5ff;
             border-top-color: #7c3aed;
             border-radius: 50%;
@@ -419,15 +394,15 @@
 
         @keyframes spin { to { transform: rotate(360deg); } }
 
-        .loading-overlay p {
-            font-size: 0.9rem;
+        .loading-box p {
+            font-size: 0.95rem;
             font-weight: 700;
             color: #5b21b6;
         }
 
         /* AI Result */
         .ai-result-section {
-            margin-top: 16px;
+            margin-top: 20px;
             background: #f5f3ff;
             border: 2px solid #c4b5fd;
             border-radius: 16px;
@@ -594,77 +569,74 @@
 
         @media (max-width: 768px) {
             .main-layout { grid-template-columns: 1fr; }
-            .hairstyle-grid { grid-template-columns: repeat(4, 1fr); }
             .bottom-section { grid-template-columns: 1fr; }
         }
 
-        @media (max-width: 480px) {
-            .hairstyle-grid { grid-template-columns: repeat(3, 1fr); }
+        @media (max-width: 540px) {
+            .upload-pair { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
     <div class="page-header">
-        <h1>✂️ 헤어스타일 체험</h1>
-        <p>내 사진에 다양한 헤어스타일을 바로 적용해보세요</p>
+        <h1>✂️ 헤어스타일 변환</h1>
+        <p>내 사진과 원하는 헤어스타일 사진을 올리면 AI가 헤어스타일을 바꿔드려요</p>
     </div>
 
     <div class="main-layout">
-        <!-- Left: Canvas Area -->
+        <!-- Left: Main Area -->
         <div class="card">
-            <div class="upload-area" id="upload-area">
-                <div class="upload-icon">📸</div>
-                <h3>사진을 여기에 드래그하거나 클릭하세요</h3>
-                <p>JPG, PNG, WEBP 형식 지원 · 최대 10MB</p>
-                <input type="file" id="file-input" accept="image/*">
+            <!-- Two upload zones -->
+            <div class="upload-pair">
+                <!-- My photo -->
+                <div class="upload-zone">
+                    <div class="upload-zone-label">
+                        📷 내 사진
+                        <span class="badge">변환 대상</span>
+                    </div>
+                    <div class="upload-area" id="my-upload-area">
+                        <div class="photo-preview-placeholder" id="my-placeholder">
+                            <div class="upload-icon">🧑</div>
+                            <h3>내 사진 업로드</h3>
+                            <p>클릭하거나 드래그하세요</p>
+                        </div>
+                        <img class="photo-preview-img" id="my-photo-img" style="display:none;" alt="내 사진">
+                        <button class="change-photo-btn" id="my-change-btn" style="display:none;">사진 변경</button>
+                    </div>
+                    <input type="file" class="file-input" id="my-file-input" accept="image/*">
+                </div>
+
+                <!-- Reference hairstyle photo -->
+                <div class="upload-zone">
+                    <div class="upload-zone-label">
+                        💇 헤어스타일 참고 사진
+                        <span class="badge">헤어 기준</span>
+                    </div>
+                    <div class="upload-area" id="ref-upload-area">
+                        <div class="photo-preview-placeholder" id="ref-placeholder">
+                            <div class="upload-icon">💁</div>
+                            <h3>참고 사진 업로드</h3>
+                            <p>원하는 헤어스타일이 담긴 사진</p>
+                        </div>
+                        <img class="photo-preview-img" id="ref-photo-img" style="display:none;" alt="헤어스타일 참고 사진">
+                        <button class="change-photo-btn" id="ref-change-btn" style="display:none;">사진 변경</button>
+                    </div>
+                    <input type="file" class="file-input" id="ref-file-input" accept="image/*">
+                </div>
             </div>
 
-            <div class="canvas-wrapper" id="canvas-wrapper">
-                <div class="canvas-placeholder" id="canvas-placeholder">
-                    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#c4b5fd" stroke-width="1.5">
-                        <rect x="3" y="3" width="18" height="18" rx="2"/>
-                        <circle cx="8.5" cy="8.5" r="1.5"/>
-                        <path d="M21 15l-5-5L5 21"/>
-                    </svg>
-                    <p>사진을 업로드하면 여기에 표시됩니다</p>
-                </div>
-                <canvas id="main-canvas" style="display:none;"></canvas>
-                <div class="loading-overlay" id="loading-overlay">
-                    <div class="spinner"></div>
-                    <p>AI가 헤어스타일을 적용 중입니다...</p>
-                </div>
-            </div>
-
-            <div class="controls-section" id="controls-section" style="display:none;">
-                <div class="slider-group">
-                    <label>크기</label>
-                    <input type="range" id="size-slider" min="30" max="200" value="100">
-                    <span class="slider-val" id="size-val">100%</span>
-                </div>
-                <div class="slider-group">
-                    <label>위/아래</label>
-                    <input type="range" id="y-slider" min="-100" max="100" value="0">
-                    <span class="slider-val" id="y-val">0</span>
-                </div>
-                <div class="slider-group">
-                    <label>좌/우</label>
-                    <input type="range" id="x-slider" min="-100" max="100" value="0">
-                    <span class="slider-val" id="x-val">0</span>
-                </div>
-                <button class="btn btn-secondary" id="reset-btn">초기화</button>
-                <button class="btn btn-download" id="download-btn">💾 저장</button>
-                <button class="btn btn-ai" id="ai-btn">✨ AI 생성</button>
-            </div>
+            <!-- AI Generate Button -->
+            <button class="btn-ai" id="ai-btn">✨ AI 헤어스타일 변환하기</button>
 
             <!-- AI Result -->
             <div class="ai-result-section" id="ai-result-section" style="display:none;">
                 <div class="ai-result-header">
-                    <h3>AI 생성 결과</h3>
+                    <h3>AI 변환 결과</h3>
                     <span class="ai-badge">Gemini AI</span>
                 </div>
-                <img id="ai-result-img" alt="AI 헤어스타일 결과">
+                <img id="ai-result-img" alt="AI 헤어스타일 변환 결과">
                 <div class="ai-result-actions">
-                    <button class="btn btn-download" id="ai-download-btn">💾 AI 결과 저장</button>
+                    <button class="btn btn-download" id="ai-download-btn">💾 결과 저장</button>
                     <button class="btn btn-secondary" id="ai-close-btn">닫기</button>
                 </div>
             </div>
@@ -697,29 +669,21 @@
                             <option value="gemini-2.0-flash-preview-image-generation">gemini-2.0-flash-preview-image-generation</option>
                             <option value="gemini-3-flash-preview">gemini-3-flash-preview</option>
                             <option value="gemini-3-pro-image-preview">gemini-3-pro-image-preview</option>
-                            <option value="imagen-4.0-generate-preview-05-20">imagen-4.0-generate-preview-05-20</option>
-                            <option value="imagen-3.0-generate-001">imagen-3.0-generate-001</option>
                         </select>
                     </div>
-                </div>
-
-                <div>
-                    <div class="section-title">💇 헤어스타일 선택</div>
-                    <div class="hairstyle-grid" id="hairstyle-grid"></div>
-                </div>
-
-                <div>
-                    <div class="section-title">🎨 머리 색상</div>
-                    <div class="color-grid" id="color-grid"></div>
                 </div>
 
                 <div class="tip-box">
                     <strong>💡 사용 방법</strong>
                     1. Gemini API 키 입력 후 저장<br>
-                    2. 내 사진을 업로드<br>
-                    3. 헤어스타일·색상 선택<br>
-                    4. <strong>✨ AI 생성</strong> 버튼 클릭<br>
-                    5. 결과 저장
+                    2. <strong>내 사진</strong> 업로드<br>
+                    3. <strong>헤어스타일 참고 사진</strong> 업로드<br>
+                    &nbsp;&nbsp;&nbsp;(원하는 헤어스타일이 잘 보이는 사진)<br>
+                    4. <strong>✨ AI 헤어스타일 변환하기</strong> 클릭<br>
+                    5. 결과 저장<br><br>
+                    <strong>📌 팁</strong>
+                    • 얼굴이 정면으로 잘 나온 사진일수록 좋아요<br>
+                    • 헤어스타일이 선명하게 보이는 참고 사진을 사용하세요
                 </div>
             </div>
         </div>
@@ -782,408 +746,27 @@
         </div>
     </div>
 
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loading-overlay">
+        <div class="loading-box">
+            <div class="spinner"></div>
+            <p>AI가 헤어스타일을 변환 중입니다...</p>
+        </div>
+    </div>
+
     <div class="toast" id="toast"></div>
 
     <script>
-    // ── Hairstyle data (thumb = sidebar portrait preview, svg = canvas overlay) ─
-    // Shared face elements for portrait thumbnails
-    const _F = `<path d="M0 100 Q8 80 22 74 Q40 68 58 74 Q72 80 80 100Z" fill="#e0a070"/>
-      <rect x="34" y="62" width="12" height="14" rx="5" fill="#f0c090"/>
-      <ellipse cx="40" cy="50" rx="19" ry="22" fill="#f5cfa0"/>
-      <ellipse cx="21" cy="52" rx="3" ry="4" fill="#ebb080"/>
-      <ellipse cx="59" cy="52" rx="3" ry="4" fill="#ebb080"/>
-      <ellipse cx="33" cy="46" rx="3" ry="2.5" fill="#2c1810"/>
-      <ellipse cx="47" cy="46" rx="3" ry="2.5" fill="#2c1810"/>
-      <circle cx="34" cy="45" r="1" fill="white" opacity="0.7"/>
-      <circle cx="48" cy="45" r="1" fill="white" opacity="0.7"/>
-      <path d="M38 53 Q40 56 42 53" fill="none" stroke="#c0906a" stroke-width="1"/>
-      <path d="M35 60 Q40 64 45 60" fill="none" stroke="#c06050" stroke-width="1.5"/>`;
-    const _thumb = (hair, frontHair = '') =>
-        `<svg viewBox="0 0 80 100" xmlns="http://www.w3.org/2000/svg">
-          <rect width="80" height="100" fill="#ede9f8" rx="8"/>
-          ${hair}${_F}${frontHair}</svg>`;
-
-    const hairstyles = [
-        {
-            id: 'short-clean', name: '숏컷 클린',
-            thumb: (c) => _thumb(
-                `<path d="M22 43 Q22 28 40 25 Q58 28 58 43 Q54 34 40 32 Q26 34 22 43Z" fill="${c}"/>
-                 <path d="M22 43 L20 60 Q21 62 22 59 L22 44Z" fill="${c}" opacity="0.55"/>
-                 <path d="M58 43 L60 60 Q59 62 58 59 L58 44Z" fill="${c}" opacity="0.55"/>
-                 <path d="M29 29 Q40 25 51 29" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="2"/>`),
-            svg: (c) => `<svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
-                <path d="M50 8 Q20 10 16 40 Q14 58 50 60 Q86 58 84 40 Q80 10 50 8Z" fill="${c}"/>
-                <path d="M16 40 Q10 30 14 20 Q20 10 50 8 Q80 10 86 20 Q90 30 84 40" fill="${c}"/>
-            </svg>`
-        },
-        {
-            id: 'wavy-long', name: '웨이브 롱',
-            thumb: (c) => _thumb(
-                `<path d="M22 43 Q18 30 22 26 Q16 38 14 52 Q12 66 14 78 Q12 88 13 100 Q10 90 10 76 Q8 62 12 48 Q15 34 22 43Z" fill="${c}"/>
-                 <path d="M58 43 Q62 30 58 26 Q64 38 66 52 Q68 66 66 78 Q68 88 67 100 Q70 90 70 76 Q72 62 68 48 Q65 34 58 43Z" fill="${c}"/>
-                 <path d="M22 43 Q22 28 40 25 Q58 28 58 43 Q54 34 40 32 Q26 34 22 43Z" fill="${c}"/>
-                 <path d="M13 54 Q10 62 12 70 Q14 64 13 54Z" fill="rgba(0,0,0,0.12)"/>
-                 <path d="M67 54 Q70 62 68 70 Q66 64 67 54Z" fill="rgba(0,0,0,0.12)"/>
-                 <path d="M12 72 Q9 82 12 90 Q14 84 12 72Z" fill="rgba(0,0,0,0.1)"/>
-                 <path d="M68 72 Q71 82 68 90 Q66 84 68 72Z" fill="rgba(0,0,0,0.1)"/>`),
-            svg: (c) => `<svg viewBox="0 0 100 150" xmlns="http://www.w3.org/2000/svg">
-                <path d="M50 5 Q20 8 16 35 Q12 60 18 88 Q14 100 18 115 Q22 130 28 142 Q32 150 36 140 Q28 118 30 95 Q26 68 30 40 Q34 18 50 15 Q66 18 70 40 Q74 68 70 95 Q72 118 64 140 Q68 150 72 142 Q78 130 82 115 Q86 100 82 88 Q88 60 84 35 Q80 8 50 5Z" fill="${c}"/>
-            </svg>`
-        },
-        {
-            id: 'bob', name: '단발 (밥)',
-            thumb: (c) => _thumb(
-                `<path d="M20 68 Q18 30 40 25 Q62 30 60 68 Q56 70 40 71 Q24 70 20 68Z" fill="${c}"/>
-                 <path d="M20 66 Q22 70 40 71 Q58 70 60 66 Q56 70 40 72 Q24 70 20 66Z" fill="rgba(0,0,0,0.14)"/>
-                 <path d="M29 28 Q40 25 51 28" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="2"/>`),
-            svg: (c) => `<svg viewBox="0 0 100 110" xmlns="http://www.w3.org/2000/svg">
-                <path d="M50 5 Q20 8 15 35 Q12 55 14 72 Q16 88 26 90 L26 60 Q38 64 50 64 Q62 64 74 60 L74 90 Q84 88 86 72 Q88 55 85 35 Q80 8 50 5Z" fill="${c}"/>
-                <rect x="14" y="58" width="14" height="34" rx="6" fill="${c}"/>
-                <rect x="72" y="58" width="14" height="34" rx="6" fill="${c}"/>
-            </svg>`
-        },
-        {
-            id: 'curly', name: '컬리 (곱슬)',
-            thumb: (c) => _thumb(
-                `<circle cx="40" cy="22" r="10" fill="${c}"/>
-                 <circle cx="24" cy="30" r="10" fill="${c}"/>
-                 <circle cx="56" cy="30" r="10" fill="${c}"/>
-                 <circle cx="14" cy="44" r="10" fill="${c}"/>
-                 <circle cx="66" cy="44" r="10" fill="${c}"/>
-                 <circle cx="21" cy="54" r="8"  fill="${c}"/>
-                 <circle cx="59" cy="54" r="8"  fill="${c}"/>
-                 <circle cx="22" cy="26" r="3.5" fill="rgba(255,255,255,0.2)"/>
-                 <circle cx="57" cy="26" r="3"   fill="rgba(255,255,255,0.18)"/>
-                 <circle cx="40" cy="15" r="3.5" fill="rgba(255,255,255,0.2)"/>
-                 <circle cx="12" cy="42" r="3"   fill="rgba(255,255,255,0.18)"/>`),
-            svg: (c) => `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="20" cy="38" r="16" fill="${c}"/>
-                <circle cx="38" cy="20" r="18" fill="${c}"/>
-                <circle cx="62" cy="20" r="18" fill="${c}"/>
-                <circle cx="80" cy="38" r="16" fill="${c}"/>
-                <circle cx="50" cy="12" r="15" fill="${c}"/>
-                <ellipse cx="50" cy="54" rx="42" ry="20" fill="${c}"/>
-                <circle cx="8"  cy="52" r="12" fill="${c}"/>
-                <circle cx="92" cy="52" r="12" fill="${c}"/>
-            </svg>`
-        },
-        {
-            id: 'ponytail', name: '포니테일',
-            thumb: (c) => _thumb(
-                `<path d="M22 43 Q22 28 40 25 Q58 28 58 43 Q54 34 40 32 Q26 34 22 43Z" fill="${c}"/>
-                 <path d="M22 43 L20 56 Q21 58 22 55 L22 44Z" fill="${c}" opacity="0.6"/>
-                 <path d="M58 43 L60 56 Q59 58 58 55 L58 44Z" fill="${c}" opacity="0.5"/>
-                 <circle cx="62" cy="42" r="5" fill="${c}"/>
-                 <circle cx="62" cy="42" r="2.5" fill="rgba(0,0,0,0.25)"/>
-                 <path d="M61 46 Q67 56 65 70 Q63 82 60 94 Q58 84 60 70 Q62 58 60 46Z" fill="${c}"/>
-                 <path d="M63 52 Q66 64 65 76 Q64 66 62 52Z" fill="rgba(0,0,0,0.12)"/>`),
-            svg: (c) => `<svg viewBox="0 0 100 160" xmlns="http://www.w3.org/2000/svg">
-                <path d="M50 8 Q20 10 16 38 Q14 58 20 70 Q30 74 38 68 Q44 72 50 72 Q56 72 62 68 Q70 74 80 70 Q86 58 84 38 Q80 10 50 8Z" fill="${c}"/>
-                <path d="M72 32 Q88 26 93 30 Q96 34 91 42 Q86 48 78 48 Q84 54 84 62 Q82 68 76 64 Q72 70 68 62" fill="${c}"/>
-                <path d="M91 42 Q98 60 90 95 Q86 118 82 148 Q78 156 76 148 Q74 126 78 100 Q82 74 78 48" fill="${c}"/>
-            </svg>`
-        },
-        {
-            id: 'buzz', name: '버즈컷',
-            thumb: (c) => _thumb(
-                `<path d="M22 43 Q22 36 40 33 Q58 36 58 43 Q54 38 40 36 Q26 38 22 43Z" fill="${c}" opacity="0.92"/>
-                 <path d="M22 43 L21 52 Q21 54 22 52 L22 44Z" fill="${c}" opacity="0.55"/>
-                 <path d="M58 43 L59 52 Q59 54 58 52 L58 44Z" fill="${c}" opacity="0.55"/>
-                 <path d="M27 36 Q34 33 40 33 Q34 34 27 36Z" fill="rgba(0,0,0,0.15)"/>
-                 <path d="M40 33 Q46 33 53 36 Q47 34 40 33Z" fill="rgba(0,0,0,0.15)"/>`),
-            svg: (c) => `<svg viewBox="0 0 100 70" xmlns="http://www.w3.org/2000/svg">
-                <path d="M50 5 Q16 8 12 40 Q12 58 50 60 Q88 58 88 40 Q84 8 50 5Z" fill="${c}" opacity="0.7"/>
-                <path d="M50 5 Q16 8 12 40 L88 40 Q84 8 50 5Z" fill="${c}"/>
-            </svg>`
-        },
-        {
-            id: 'mohawk', name: '모히칸',
-            thumb: (c) => _thumb(
-                `<path d="M22 43 Q22 40 25 38" fill="${c}" opacity="0.2"/>
-                 <path d="M58 43 Q58 40 55 38" fill="${c}" opacity="0.2"/>
-                 <path d="M36 44 Q35 34 36 20 Q38 11 40 7 Q42 11 44 20 Q45 34 44 44Z" fill="${c}"/>
-                 <path d="M38 13 Q40 7 42 13 Q41 10 40 7 Q39 10 38 13Z" fill="rgba(255,255,255,0.28)"/>
-                 <path d="M37 24 Q40 22 43 24 Q41 22 40 21 Q39 22 37 24Z" fill="rgba(255,255,255,0.18)"/>`),
-            svg: (c) => `<svg viewBox="0 0 100 140" xmlns="http://www.w3.org/2000/svg">
-                <path d="M43 92 Q39 52 41 14 Q44 4 50 3 Q56 4 59 14 Q61 52 57 92Z" fill="${c}"/>
-                <path d="M41 14 Q37 4 30 7 Q23 12 27 23 Q31 32 41 32" fill="${c}"/>
-                <path d="M59 14 Q63 4 70 7 Q77 12 73 23 Q69 32 59 32" fill="${c}"/>
-                <ellipse cx="50" cy="90" rx="20" ry="8" fill="${c}"/>
-            </svg>`
-        },
-        {
-            id: 'side-part', name: '사이드파트',
-            thumb: (c) => _thumb(
-                `<path d="M22 43 Q20 30 32 27 Q46 24 58 30 Q61 36 59 44 Q54 36 44 32 Q33 30 26 36 Q22 40 22 43Z" fill="${c}"/>
-                 <path d="M22 43 L20 58 Q21 60 22 57 L22 45Z" fill="${c}" opacity="0.7"/>
-                 <path d="M59 43 L61 58 Q60 60 59 57 L59 45Z" fill="${c}" opacity="0.65"/>
-                 <path d="M26 30 Q28 28 28 37" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="1.5"/>
-                 <path d="M42 28 Q52 30 58 36 Q52 32 44 30Z" fill="rgba(0,0,0,0.1)"/>`),
-            svg: (c) => `<svg viewBox="0 0 100 85" xmlns="http://www.w3.org/2000/svg">
-                <path d="M50 6 Q18 8 14 38 Q13 56 50 58 Q87 56 86 38 Q82 8 50 6Z" fill="${c}"/>
-                <path d="M14 22 Q10 12 22 8 Q34 5 42 12 Q34 20 30 32" fill="${c}"/>
-                <path d="M22 8 Q34 3 44 10 Q48 5 50 6" fill="${c}" opacity="0.7"/>
-            </svg>`
-        },
-        {
-            id: 'twin-tails', name: '양갈래',
-            thumb: (c) => _thumb(
-                `<path d="M22 43 Q22 28 40 25 Q58 28 58 43 Q54 34 40 32 Q26 34 22 43Z" fill="${c}"/>
-                 <path d="M22 43 Q14 46 12 56 Q10 70 12 82 Q14 92 16 100 Q13 90 13 78 Q11 66 14 54 Q17 46 22 43Z" fill="${c}"/>
-                 <path d="M58 43 Q66 46 68 56 Q70 70 68 82 Q66 92 64 100 Q67 90 67 78 Q69 66 66 54 Q63 46 58 43Z" fill="${c}"/>
-                 <ellipse cx="18" cy="49" rx="5" ry="3" fill="${c}"/>
-                 <ellipse cx="18" cy="49" rx="3" ry="1.5" fill="rgba(0,0,0,0.22)"/>
-                 <ellipse cx="62" cy="49" rx="5" ry="3" fill="${c}"/>
-                 <ellipse cx="62" cy="49" rx="3" ry="1.5" fill="rgba(0,0,0,0.22)"/>`),
-            svg: (c) => `<svg viewBox="0 0 120 155" xmlns="http://www.w3.org/2000/svg">
-                <path d="M60 8 Q30 10 26 38 Q24 58 30 68 Q38 72 46 66 Q52 70 60 70 Q68 70 74 66 Q82 72 90 68 Q96 58 94 38 Q90 10 60 8Z" fill="${c}"/>
-                <path d="M26 50 Q10 46 6 54 Q4 64 10 74 Q6 92 8 118 Q10 140 16 150 Q20 156 22 148 Q22 128 18 106 Q16 84 22 68" fill="${c}"/>
-                <path d="M94 50 Q110 46 114 54 Q116 64 110 74 Q114 92 112 118 Q110 140 104 150 Q100 156 98 148 Q98 128 102 106 Q104 84 98 68" fill="${c}"/>
-            </svg>`
-        },
-        {
-            id: 'afro', name: '아프로',
-            thumb: (c) => _thumb(
-                `<circle cx="40" cy="37" r="28" fill="${c}"/>
-                 <circle cx="12" cy="44" r="16" fill="${c}"/>
-                 <circle cx="68" cy="44" r="16" fill="${c}"/>
-                 <circle cx="40" cy="13" r="14" fill="${c}"/>
-                 <circle cx="21" cy="26" r="8"  fill="${c}" opacity="0.7"/>
-                 <circle cx="59" cy="26" r="8"  fill="${c}" opacity="0.7"/>
-                 <circle cx="22" cy="24" r="4.5" fill="rgba(255,255,255,0.17)"/>
-                 <circle cx="55" cy="18" r="4"   fill="rgba(255,255,255,0.15)"/>
-                 <circle cx="40" cy="9"  r="4"   fill="rgba(255,255,255,0.18)"/>
-                 <circle cx="10" cy="42" r="3.5" fill="rgba(255,255,255,0.14)"/>
-                 <circle cx="70" cy="40" r="3.5" fill="rgba(255,255,255,0.14)"/>`),
-            svg: (c) => `<svg viewBox="0 0 100 95" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="50" cy="50" r="44" fill="${c}"/>
-                <circle cx="18" cy="38" r="18" fill="${c}"/>
-                <circle cx="82" cy="38" r="18" fill="${c}"/>
-                <circle cx="50" cy="8"  r="18" fill="${c}"/>
-                <circle cx="10" cy="60" r="14" fill="${c}"/>
-                <circle cx="90" cy="60" r="14" fill="${c}"/>
-            </svg>`
-        },
-        {
-            id: 'bun', name: '쪽머리 (번)',
-            thumb: (c) => _thumb(
-                `<path d="M22 43 Q22 37 40 34 Q58 37 58 43 Q54 38 40 36 Q26 38 22 43Z" fill="${c}" opacity="0.85"/>
-                 <path d="M22 43 L21 54 Q22 56 22 52 L22 44Z" fill="${c}" opacity="0.6"/>
-                 <path d="M58 43 L59 54 Q58 56 58 52 L58 44Z" fill="${c}" opacity="0.6"/>
-                 <circle cx="40" cy="20" r="13" fill="${c}"/>
-                 <path d="M30 22 Q40 15 50 22 Q44 18 40 15 Q36 18 30 22Z" fill="rgba(0,0,0,0.18)"/>
-                 <circle cx="40" cy="21" r="4" fill="rgba(0,0,0,0.1)"/>
-                 <circle cx="36" cy="17" r="3.5" fill="rgba(255,255,255,0.22)"/>`),
-            svg: (c) => `<svg viewBox="0 0 100 110" xmlns="http://www.w3.org/2000/svg">
-                <path d="M50 30 Q22 32 18 56 Q16 74 50 76 Q84 74 82 56 Q78 32 50 30Z" fill="${c}"/>
-                <circle cx="50" cy="18" r="18" fill="${c}"/>
-                <circle cx="50" cy="7"  r="10" fill="${c}" opacity="0.75"/>
-            </svg>`
-        },
-        {
-            id: 'straight-long', name: '생머리 롱',
-            thumb: (c) => _thumb(
-                `<path d="M22 43 Q18 30 22 26 Q17 38 15 52 Q13 66 13 80 Q13 90 14 100 Q11 90 11 76 Q9 62 12 48 Q16 34 22 43Z" fill="${c}"/>
-                 <path d="M58 43 Q62 30 58 26 Q63 38 65 52 Q67 66 67 80 Q67 90 66 100 Q69 90 69 76 Q71 62 68 48 Q64 34 58 43Z" fill="${c}"/>
-                 <path d="M22 43 Q22 28 40 25 Q58 28 58 43 Q54 34 40 32 Q26 34 22 43Z" fill="${c}"/>
-                 <path d="M13 52 Q12 64 12 76" fill="none" stroke="rgba(0,0,0,0.1)" stroke-width="1.2"/>
-                 <path d="M67 52 Q68 64 68 76" fill="none" stroke="rgba(0,0,0,0.1)" stroke-width="1.2"/>
-                 <path d="M15 56 Q14 70 15 82" fill="none" stroke="rgba(0,0,0,0.07)" stroke-width="1"/>
-                 <path d="M65 56 Q66 70 65 82" fill="none" stroke="rgba(0,0,0,0.07)" stroke-width="1"/>`),
-            svg: (c) => `<svg viewBox="0 0 100 155" xmlns="http://www.w3.org/2000/svg">
-                <path d="M50 5 Q22 8 18 36 Q16 56 18 82 Q20 108 24 132 Q26 147 30 136 Q28 112 28 88 Q26 62 28 38 Q32 18 50 16 Q68 18 72 38 Q74 62 72 88 Q72 112 70 136 Q74 147 76 132 Q80 108 82 82 Q84 56 82 36 Q78 8 50 5Z" fill="${c}"/>
-            </svg>`
-        },
-    ];
-
-    const hairColors = [
-        { name: '블랙',       value: '#1a0800' },
-        { name: '다크브라운', value: '#3b1a08' },
-        { name: '브라운',     value: '#6b3a2a' },
-        { name: '카라멜',     value: '#a0522d' },
-        { name: '골든',       value: '#c8962e' },
-        { name: '플래티넘',   value: '#e8dcc8' },
-        { name: '화이트',     value: '#f5f0e8' },
-        { name: '딥레드',     value: '#8b1a1a' },
-        { name: '버건디',     value: '#6d2b3d' },
-        { name: '핑크',       value: '#e8638c' },
-        { name: '퍼플',       value: '#7c5cbf' },
-        { name: '블루',       value: '#2d5fa6' },
-        { name: '그린',       value: '#2d7a4f' },
-        { name: '실버',       value: '#a8a8b8' },
-    ];
-
     // ── State ─────────────────────────────────────────────────────────────────
-    let currentHairstyle = null;
-    let currentColor = hairColors[1].value;
-    let userImage = null;
-    let hairScale = 1.0;
-    let hairOffsetX = 0;
-    let hairOffsetY = 0;
+    let myImageBase64   = null;  // 내 사진 (base64)
+    let refImageBase64  = null;  // 참고 사진 (base64)
 
     // ── DOM refs ──────────────────────────────────────────────────────────────
-    const canvas       = document.getElementById('main-canvas');
-    const ctx          = canvas.getContext('2d');
-    const placeholder  = document.getElementById('canvas-placeholder');
-    const uploadArea   = document.getElementById('upload-area');
-    const fileInput    = document.getElementById('file-input');
-    const controlsSec  = document.getElementById('controls-section');
-    const sizeSlider   = document.getElementById('size-slider');
-    const ySlider      = document.getElementById('y-slider');
-    const xSlider      = document.getElementById('x-slider');
-    const sizeVal      = document.getElementById('size-val');
-    const yVal         = document.getElementById('y-val');
-    const xVal         = document.getElementById('x-val');
-    const toastEl      = document.getElementById('toast');
-
-    // ── Build Hairstyle Grid ──────────────────────────────────────────────────
-    const hairstyleGrid = document.getElementById('hairstyle-grid');
-    hairstyles.forEach(hs => {
-        const btn = document.createElement('button');
-        btn.className = 'hairstyle-btn';
-        btn.dataset.id = hs.id;
-        btn.innerHTML = `${hs.thumb(currentColor)}<span>${hs.name}</span>`;
-        btn.addEventListener('click', () => selectHairstyle(hs));
-        hairstyleGrid.appendChild(btn);
-    });
-
-    // ── Build Color Grid ──────────────────────────────────────────────────────
-    const colorGrid = document.getElementById('color-grid');
-    hairColors.forEach(c => {
-        const dot = document.createElement('div');
-        dot.className = 'color-dot' + (c.value === currentColor ? ' active' : '');
-        dot.style.background = c.value;
-        dot.title = c.name;
-        dot.addEventListener('click', () => selectColor(c.value, dot));
-        colorGrid.appendChild(dot);
-    });
-
-    // ── Upload ────────────────────────────────────────────────────────────────
-    uploadArea.addEventListener('click', () => fileInput.click());
-    uploadArea.addEventListener('dragover', e => { e.preventDefault(); uploadArea.classList.add('drag-over'); });
-    uploadArea.addEventListener('dragleave', () => uploadArea.classList.remove('drag-over'));
-    uploadArea.addEventListener('drop', e => {
-        e.preventDefault();
-        uploadArea.classList.remove('drag-over');
-        const file = e.dataTransfer.files[0];
-        if (file && file.type.startsWith('image/')) loadImage(file);
-    });
-    fileInput.addEventListener('change', e => {
-        if (e.target.files[0]) loadImage(e.target.files[0]);
-    });
-
-    function loadImage(file) {
-        const reader = new FileReader();
-        reader.onload = ev => {
-            const img = new Image();
-            img.onload = () => {
-                userImage = img;
-                const maxW = Math.min(680, img.width);
-                const ratio = maxW / img.width;
-                canvas.width  = maxW;
-                canvas.height = img.height * ratio;
-
-                placeholder.style.display = 'none';
-                canvas.style.display = 'block';
-                controlsSec.style.display = 'flex';
-
-                hairOffsetX = 0; hairOffsetY = 0;
-                sizeSlider.value = 100; ySlider.value = 0; xSlider.value = 0;
-                updateSliderLabels();
-                render();
-                updateAiBtn();
-                showToast('사진이 업로드되었습니다! 헤어스타일을 선택하세요.');
-            };
-            img.src = ev.target.result;
-        };
-        reader.readAsDataURL(file);
-    }
-
-    // ── Render ────────────────────────────────────────────────────────────────
-    function render() {
-        if (!userImage) return;
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.drawImage(userImage, 0, 0, canvas.width, canvas.height);
-        if (!currentHairstyle) return;
-
-        const svgStr  = currentHairstyle.svg(currentColor);
-        const blob    = new Blob([svgStr], { type: 'image/svg+xml;charset=utf-8' });
-        const url     = URL.createObjectURL(blob);
-        const hairImg = new Image();
-
-        hairImg.onload = () => {
-            const baseW = canvas.width * 0.72 * hairScale;
-            const aspect = hairImg.naturalHeight / hairImg.naturalWidth;
-            const hairW = baseW;
-            const hairH = baseW * aspect;
-            const x = (canvas.width  - hairW) / 2 + hairOffsetX;
-            const y = -hairH * 0.28 + hairOffsetY;
-
-            ctx.drawImage(hairImg, x, y, hairW, hairH);
-            URL.revokeObjectURL(url);
-        };
-        hairImg.src = url;
-    }
-
-    // ── Select Hairstyle ──────────────────────────────────────────────────────
-    function selectHairstyle(hs) {
-        currentHairstyle = hs;
-        document.querySelectorAll('.hairstyle-btn').forEach(b => b.classList.remove('active'));
-        document.querySelector(`[data-id="${hs.id}"]`).classList.add('active');
-        render();
-        updateAiBtn();
-    }
-
-    // ── Select Color ──────────────────────────────────────────────────────────
-    function selectColor(val, dotEl) {
-        currentColor = val;
-        document.querySelectorAll('.color-dot').forEach(d => d.classList.remove('active'));
-        dotEl.classList.add('active');
-        // Refresh SVG previews in hairstyle buttons
-        hairstyles.forEach(hs => {
-            const btn = document.querySelector(`[data-id="${hs.id}"]`);
-            if (btn) btn.innerHTML = `${hs.thumb(currentColor)}<span>${hs.name}</span>`;
-        });
-        render();
-    }
-
-    // ── Sliders ───────────────────────────────────────────────────────────────
-    function updateSliderLabels() {
-        sizeVal.textContent = sizeSlider.value + '%';
-        yVal.textContent    = ySlider.value;
-        xVal.textContent    = xSlider.value;
-    }
-
-    sizeSlider.addEventListener('input', () => {
-        hairScale = parseInt(sizeSlider.value) / 100;
-        updateSliderLabels(); render();
-    });
-    ySlider.addEventListener('input', () => {
-        hairOffsetY = parseInt(ySlider.value) * (canvas.height / 100);
-        updateSliderLabels(); render();
-    });
-    xSlider.addEventListener('input', () => {
-        hairOffsetX = parseInt(xSlider.value) * (canvas.width / 100);
-        updateSliderLabels(); render();
-    });
-
-    document.getElementById('reset-btn').addEventListener('click', () => {
-        hairOffsetX = 0; hairOffsetY = 0; hairScale = 1.0;
-        sizeSlider.value = 100; ySlider.value = 0; xSlider.value = 0;
-        updateSliderLabels(); render();
-    });
-
-    // ── Download ──────────────────────────────────────────────────────────────
-    document.getElementById('download-btn').addEventListener('click', () => {
-        canvas.toBlob(blob => {
-            const a = document.createElement('a');
-            a.href = URL.createObjectURL(blob);
-            a.download = 'hairstyle-result.png';
-            a.click();
-            URL.revokeObjectURL(a.href);
-            showToast('이미지가 저장되었습니다!');
-        }, 'image/png');
-    });
+    const toastEl        = document.getElementById('toast');
+    const loadingOverlay = document.getElementById('loading-overlay');
+    const aiResultSec    = document.getElementById('ai-result-section');
+    const aiResultImg    = document.getElementById('ai-result-img');
+    const aiBtn          = document.getElementById('ai-btn');
 
     // ── Toast ─────────────────────────────────────────────────────────────────
     let toastTimer;
@@ -1191,17 +774,83 @@
         toastEl.textContent = msg;
         toastEl.classList.add('show');
         clearTimeout(toastTimer);
-        toastTimer = setTimeout(() => toastEl.classList.remove('show'), 2800);
+        toastTimer = setTimeout(() => toastEl.classList.remove('show'), 3000);
     }
 
+    // ── Upload helper ─────────────────────────────────────────────────────────
+    function setupUpload({ areaId, fileInputId, imgId, placeholderId, changeBtnId, onLoad }) {
+        const area        = document.getElementById(areaId);
+        const fileInput   = document.getElementById(fileInputId);
+        const imgEl       = document.getElementById(imgId);
+        const placeholder = document.getElementById(placeholderId);
+        const changeBtn   = document.getElementById(changeBtnId);
+
+        function triggerFileInput() { fileInput.click(); }
+
+        // Click on placeholder triggers file input
+        placeholder.addEventListener('click', triggerFileInput);
+
+        // Change button
+        changeBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            fileInput.click();
+        });
+
+        // Drag & drop
+        area.addEventListener('dragover', e => { e.preventDefault(); area.classList.add('drag-over'); });
+        area.addEventListener('dragleave', () => area.classList.remove('drag-over'));
+        area.addEventListener('drop', e => {
+            e.preventDefault();
+            area.classList.remove('drag-over');
+            const file = e.dataTransfer.files[0];
+            if (file && file.type.startsWith('image/')) loadFile(file);
+        });
+
+        fileInput.addEventListener('change', e => {
+            if (e.target.files[0]) loadFile(e.target.files[0]);
+        });
+
+        function loadFile(file) {
+            const reader = new FileReader();
+            reader.onload = ev => {
+                const src    = ev.target.result;
+                const base64 = src.split(',')[1];
+
+                imgEl.src = src;
+                imgEl.style.display = 'block';
+                placeholder.style.display = 'none';
+                changeBtn.style.display = 'block';
+                area.classList.add('has-image');
+
+                onLoad(base64);
+                showToast('사진이 업로드되었습니다!');
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+
+    setupUpload({
+        areaId: 'my-upload-area',
+        fileInputId: 'my-file-input',
+        imgId: 'my-photo-img',
+        placeholderId: 'my-placeholder',
+        changeBtnId: 'my-change-btn',
+        onLoad: (b64) => { myImageBase64 = b64; }
+    });
+
+    setupUpload({
+        areaId: 'ref-upload-area',
+        fileInputId: 'ref-file-input',
+        imgId: 'ref-photo-img',
+        placeholderId: 'ref-placeholder',
+        changeBtnId: 'ref-change-btn',
+        onLoad: (b64) => { refImageBase64 = b64; }
+    });
+
     // ── API Key ───────────────────────────────────────────────────────────────
-    const apiKeyInput    = document.getElementById('api-key-input');
-    const saveKeyBtn     = document.getElementById('save-key-btn');
-    const keySavedBadge  = document.getElementById('key-saved-badge');
-    const aiBtn          = document.getElementById('ai-btn');
-    const loadingOverlay = document.getElementById('loading-overlay');
-    const aiResultSec    = document.getElementById('ai-result-section');
-    const aiResultImg    = document.getElementById('ai-result-img');
+    const apiKeyInput   = document.getElementById('api-key-input');
+    const saveKeyBtn    = document.getElementById('save-key-btn');
+    const keySavedBadge = document.getElementById('key-saved-badge');
 
     let geminiApiKey = localStorage.getItem('gemini_api_key') || '';
 
@@ -1211,12 +860,8 @@
             apiKeyInput.placeholder = '••••••••••••••••';
         } else {
             keySavedBadge.style.display = 'none';
+            apiKeyInput.placeholder = 'AIza...';
         }
-        updateAiBtn();
-    }
-
-    function updateAiBtn() {
-        // 버튼은 항상 활성화 — 클릭 시 조건을 안내
     }
 
     saveKeyBtn.addEventListener('click', () => {
@@ -1232,56 +877,20 @@
     updateKeyUI();
 
     // ── AI Generate ───────────────────────────────────────────────────────────
-    const hairstylePrompts = {
-        'short-clean':    '짧고 깔끔한 숏컷 (short clean cut)',
-        'wavy-long':      '긴 웨이브 머리 (long wavy hair)',
-        'bob':            '턱선까지 오는 단발 밥컷 (chin-length bob cut)',
-        'curly':          '풍성한 곱슬 컬리 헤어 (voluminous curly hair)',
-        'ponytail':       '높게 묶은 포니테일 (high ponytail)',
-        'buzz':           '매우 짧은 버즈컷 (very short buzz cut)',
-        'mohawk':         '모히칸 스타일 (mohawk style)',
-        'side-part':      '옆 가르마 사이드파트 (side part)',
-        'twin-tails':     '양쪽으로 묶은 트윈테일 (twin tails / pigtails)',
-        'afro':           '풍성한 아프로 헤어 (afro hair)',
-        'bun':            '위로 틀어올린 쪽머리 번 (top bun / updo)',
-        'straight-long':  '길고 곧은 생머리 (long straight hair)',
-    };
-
-    const colorPrompts = {
-        '#1a0800': '블랙 (jet black)',
-        '#3b1a08': '다크 브라운 (dark brown)',
-        '#6b3a2a': '브라운 (brown)',
-        '#a0522d': '카라멜 브라운 (caramel brown)',
-        '#c8962e': '골든 블론드 (golden blonde)',
-        '#e8dcc8': '플래티넘 블론드 (platinum blonde)',
-        '#f5f0e8': '화이트 (white / silver-white)',
-        '#8b1a1a': '딥 레드 (deep red)',
-        '#6d2b3d': '버건디 (burgundy)',
-        '#e8638c': '핑크 (pastel pink)',
-        '#7c5cbf': '퍼플 (purple)',
-        '#2d5fa6': '블루 (blue)',
-        '#2d7a4f': '그린 (green)',
-        '#a8a8b8': '실버 (silver gray)',
-    };
-
     aiBtn.addEventListener('click', async () => {
-        if (!geminiApiKey)     { showToast('먼저 Gemini API 키를 입력하고 저장해주세요.'); return; }
-        if (!userImage)        { showToast('먼저 사진을 업로드해주세요.'); return; }
-        if (!currentHairstyle) { showToast('헤어스타일을 선택해주세요.'); return; }
+        if (!geminiApiKey)   { showToast('먼저 Gemini API 키를 입력하고 저장해주세요.'); return; }
+        if (!myImageBase64)  { showToast('내 사진을 업로드해주세요.'); return; }
+        if (!refImageBase64) { showToast('헤어스타일 참고 사진을 업로드해주세요.'); return; }
 
-        const model       = document.getElementById('model-select').value;
-        const hsPrompt    = hairstylePrompts[currentHairstyle.id] || currentHairstyle.name;
-        const colorPrompt = colorPrompts[currentColor] || currentColor;
-
-        // 사진을 base64 JPEG로 변환
-        const base64 = canvas.toDataURL('image/jpeg', 0.9).split(',')[1];
+        const model = document.getElementById('model-select').value;
 
         const prompt =
-            `이 사람의 헤어스타일을 "${hsPrompt}"로, 머리 색상을 "${colorPrompt}"으로 ` +
-            `자연스럽고 사실적으로 변경해주세요. ` +
-            `얼굴 특징(눈, 코, 입, 피부톤, 표정)은 원본 그대로 유지하고, ` +
-            `오직 헤어스타일과 머리 색상만 변경해주세요. ` +
-            `결과 이미지는 원본과 동일한 구도와 조명을 유지해야 합니다.`;
+            `두 장의 사진이 있습니다.\n` +
+            `첫 번째 사진: 헤어스타일을 바꾸고 싶은 사람의 사진\n` +
+            `두 번째 사진: 적용하고 싶은 헤어스타일이 담긴 참고 사진\n\n` +
+            `첫 번째 사람의 얼굴(눈, 코, 입, 피부톤, 표정, 체형)은 완전히 그대로 유지하면서, ` +
+            `헤어스타일만 두 번째 참고 사진과 동일하게 자연스럽고 사실적으로 변경해주세요. ` +
+            `조명, 구도, 배경은 첫 번째 사진 기준으로 유지해주세요.`;
 
         aiBtn.disabled = true;
         aiBtn.textContent = '생성 중...';
@@ -1289,74 +898,42 @@
         aiResultSec.style.display = 'none';
 
         try {
-            const isImagen = model.startsWith('imagen');
-            let res, data, imgPart;
-
-            if (isImagen) {
-                // ── Imagen 모델: predict 엔드포인트 ──
-                res = await fetch(
-                    `https://generativelanguage.googleapis.com/v1beta/models/${model}:predict?key=${geminiApiKey}`,
-                    {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            instances: [{
-                                prompt: prompt,
-                                referenceImages: [{
-                                    referenceType: 'REFERENCE_TYPE_SUBJECT',
-                                    referenceId: 1,
-                                    referenceImage: { bytesBase64Encoded: base64 }
-                                }]
-                            }],
-                            parameters: { sampleCount: 1 }
-                        })
-                    }
-                );
-                if (!res.ok) {
-                    const err = await res.json();
-                    throw new Error(err.error?.message || `HTTP ${res.status}`);
+            const res = await fetch(
+                `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${geminiApiKey}`,
+                {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{
+                            role: 'user',
+                            parts: [
+                                { text: prompt },
+                                { inline_data: { mime_type: 'image/jpeg', data: myImageBase64 } },
+                                { inline_data: { mime_type: 'image/jpeg', data: refImageBase64 } }
+                            ]
+                        }],
+                        generationConfig: {
+                            responseModalities: ['TEXT', 'IMAGE']
+                        }
+                    })
                 }
-                data = await res.json();
-                const pred = data.predictions?.[0];
-                if (!pred?.bytesBase64Encoded) throw new Error('이미지를 생성하지 못했습니다.');
-                imgPart = { mime_type: 'image/png', data: pred.bytesBase64Encoded };
+            );
 
-            } else {
-                // ── Gemini 모델: generateContent 엔드포인트 ──
-                res = await fetch(
-                    `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${geminiApiKey}`,
-                    {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            contents: [{
-                                role: 'user',
-                                parts: [
-                                    { text: prompt },
-                                    { inline_data: { mime_type: 'image/jpeg', data: base64 } }
-                                ]
-                            }],
-                            generationConfig: {
-                                responseModalities: ['TEXT', 'IMAGE']
-                            }
-                        })
-                    }
-                );
-                if (!res.ok) {
-                    const err = await res.json();
-                    throw new Error(err.error?.message || `HTTP ${res.status}`);
-                }
-                data = await res.json();
-                const parts = data.candidates?.[0]?.content?.parts || [];
-                const found = parts.find(p => p.inline_data?.mime_type?.startsWith('image/'));
-                if (!found) throw new Error('이미지를 생성하지 못했습니다.');
-                imgPart = found.inline_data;
+            if (!res.ok) {
+                const err = await res.json();
+                throw new Error(err.error?.message || `HTTP ${res.status}`);
             }
 
+            const data  = await res.json();
+            const parts = data.candidates?.[0]?.content?.parts || [];
+            const found = parts.find(p => p.inline_data?.mime_type?.startsWith('image/'));
+            if (!found) throw new Error('이미지를 생성하지 못했습니다. 다른 모델을 시도해보세요.');
+
+            const imgPart = found.inline_data;
             aiResultImg.src = `data:${imgPart.mime_type};base64,${imgPart.data}`;
             aiResultSec.style.display = 'block';
             aiResultSec.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            showToast('AI 헤어스타일 생성 완료!');
+            showToast('AI 헤어스타일 변환 완료!');
 
         } catch (e) {
             showToast(`오류: ${e.message}`);
@@ -1364,7 +941,7 @@
         } finally {
             loadingOverlay.classList.remove('show');
             aiBtn.disabled = false;
-            aiBtn.innerHTML = '✨ AI 생성';
+            aiBtn.innerHTML = '✨ AI 헤어스타일 변환하기';
         }
     });
 
@@ -1372,16 +949,16 @@
     document.getElementById('ai-download-btn').addEventListener('click', () => {
         const a = document.createElement('a');
         a.href = aiResultImg.src;
-        a.download = 'ai-hairstyle-result.png';
+        a.download = 'hairstyle-result.png';
         a.click();
-        showToast('AI 결과가 저장되었습니다!');
+        showToast('결과 이미지가 저장되었습니다!');
     });
 
     document.getElementById('ai-close-btn').addEventListener('click', () => {
         aiResultSec.style.display = 'none';
     });
-
     </script>
+
     <!-- Disqus -->
     <script>
         (function() {
