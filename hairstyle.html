@@ -758,8 +758,8 @@
 
     <script>
     // ── State ─────────────────────────────────────────────────────────────────
-    let myImageBase64   = null;  // 내 사진 (base64)
-    let refImageBase64  = null;  // 참고 사진 (base64)
+    let myImage  = null;  // { data: base64, mimeType: string }
+    let refImage = null;  // { data: base64, mimeType: string }
 
     // ── DOM refs ──────────────────────────────────────────────────────────────
     const toastEl        = document.getElementById('toast');
@@ -813,8 +813,9 @@
         function loadFile(file) {
             const reader = new FileReader();
             reader.onload = ev => {
-                const src    = ev.target.result;
-                const base64 = src.split(',')[1];
+                const src      = ev.target.result;
+                const mimeType = src.split(';')[0].split(':')[1];
+                const base64   = src.split(',')[1];
 
                 imgEl.src = src;
                 imgEl.style.display = 'block';
@@ -822,7 +823,7 @@
                 changeBtn.style.display = 'block';
                 area.classList.add('has-image');
 
-                onLoad(base64);
+                onLoad({ data: base64, mimeType });
                 showToast('사진이 업로드되었습니다!');
             };
             reader.readAsDataURL(file);
@@ -835,7 +836,7 @@
         imgId: 'my-photo-img',
         placeholderId: 'my-placeholder',
         changeBtnId: 'my-change-btn',
-        onLoad: (b64) => { myImageBase64 = b64; }
+        onLoad: (img) => { myImage = img; }
     });
 
     setupUpload({
@@ -844,7 +845,7 @@
         imgId: 'ref-photo-img',
         placeholderId: 'ref-placeholder',
         changeBtnId: 'ref-change-btn',
-        onLoad: (b64) => { refImageBase64 = b64; }
+        onLoad: (img) => { refImage = img; }
     });
 
     // ── API Key ───────────────────────────────────────────────────────────────
@@ -878,19 +879,19 @@
 
     // ── AI Generate ───────────────────────────────────────────────────────────
     aiBtn.addEventListener('click', async () => {
-        if (!geminiApiKey)   { showToast('먼저 Gemini API 키를 입력하고 저장해주세요.'); return; }
-        if (!myImageBase64)  { showToast('내 사진을 업로드해주세요.'); return; }
-        if (!refImageBase64) { showToast('헤어스타일 참고 사진을 업로드해주세요.'); return; }
+        if (!geminiApiKey) { showToast('먼저 Gemini API 키를 입력하고 저장해주세요.'); return; }
+        if (!myImage)      { showToast('내 사진을 업로드해주세요.'); return; }
+        if (!refImage)     { showToast('헤어스타일 참고 사진을 업로드해주세요.'); return; }
 
         const model = document.getElementById('model-select').value;
 
         const prompt =
-            `두 장의 사진이 있습니다.\n` +
-            `첫 번째 사진: 헤어스타일을 바꾸고 싶은 사람의 사진\n` +
-            `두 번째 사진: 적용하고 싶은 헤어스타일이 담긴 참고 사진\n\n` +
-            `첫 번째 사람의 얼굴(눈, 코, 입, 피부톤, 표정, 체형)은 완전히 그대로 유지하면서, ` +
-            `헤어스타일만 두 번째 참고 사진과 동일하게 자연스럽고 사실적으로 변경해주세요. ` +
-            `조명, 구도, 배경은 첫 번째 사진 기준으로 유지해주세요.`;
+            `You are given two images.\n` +
+            `Image 1: A person whose hairstyle should be changed.\n` +
+            `Image 2: A reference photo showing the desired hairstyle.\n\n` +
+            `Generate a new photorealistic image of the person from Image 1, but with the exact hairstyle shown in Image 2. ` +
+            `Preserve everything about the person in Image 1: face features, skin tone, expression, body, clothing, background, lighting, and composition. ` +
+            `Change ONLY the hairstyle to match Image 2. The result must look natural and realistic.`;
 
         aiBtn.disabled = true;
         aiBtn.textContent = '생성 중...';
@@ -907,9 +908,9 @@
                         contents: [{
                             role: 'user',
                             parts: [
-                                { text: prompt },
-                                { inline_data: { mime_type: 'image/jpeg', data: myImageBase64 } },
-                                { inline_data: { mime_type: 'image/jpeg', data: refImageBase64 } }
+                                { inline_data: { mime_type: myImage.mimeType,  data: myImage.data  } },
+                                { inline_data: { mime_type: refImage.mimeType, data: refImage.data } },
+                                { text: prompt }
                             ]
                         }],
                         generationConfig: {
@@ -925,9 +926,19 @@
             }
 
             const data  = await res.json();
+            console.log('Gemini response:', JSON.stringify(data, null, 2));
             const parts = data.candidates?.[0]?.content?.parts || [];
             const found = parts.find(p => p.inline_data?.mime_type?.startsWith('image/'));
-            if (!found) throw new Error('이미지를 생성하지 못했습니다. 다른 모델을 시도해보세요.');
+            if (!found) {
+                const textPart = parts.find(p => p.text);
+                const reason   = data.candidates?.[0]?.finishReason || '';
+                const msg      = textPart?.text
+                    ? `모델 응답: ${textPart.text.slice(0, 120)}`
+                    : reason
+                        ? `생성 실패 (${reason}). 다른 모델을 시도해보세요.`
+                        : '이미지를 생성하지 못했습니다. 다른 모델을 시도해보세요.';
+                throw new Error(msg);
+            }
 
             const imgPart = found.inline_data;
             aiResultImg.src = `data:${imgPart.mime_type};base64,${imgPart.data}`;
