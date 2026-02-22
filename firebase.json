@@ -13,7 +13,8 @@
     "rewrites": [
       {
         "source": "/api/gemini",
-        "function": "geminiProxy"
+        "function": "geminiProxy",
+        "region": "asia-northeast3"
       }
     ]
   },
