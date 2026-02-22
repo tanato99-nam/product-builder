@@ -915,16 +915,22 @@
         const model = 'gemini-3-pro-image-preview';
 
         const prompt =
-            `You are a professional hair stylist AI.\n` +
-            `Image 1 is the subject person. Image 2 is a hairstyle reference.\n\n` +
-            `Generate a photorealistic image of the person from Image 1 with ONLY the hairstyle changed to match Image 2.\n` +
-            `You MUST preserve ALL of the following from Image 1 EXACTLY as they are:\n` +
-            `- Face, facial features, skin tone, and expression\n` +
-            `- Clothing, outfit, and accessories (glasses, earrings, necklaces, etc.)\n` +
-            `- Body pose and posture\n` +
-            `- Background and lighting\n\n` +
-            `ONLY change: the hair color, hair length, hair style, and hair texture to match the hairstyle in Image 2.\n` +
-            `Do NOT change anything else. Output the result image directly.`;
+            `You are an expert AI photo retouching artist specializing in photorealistic hair replacement.\n` +
+            `Image 1 is the subject. Image 2 is the hairstyle reference.\n\n` +
+            `Task: Replace the hair in Image 1 with the hairstyle from Image 2. The final result must look like a real photograph — completely indistinguishable from a photo taken in a real salon.\n\n` +
+            `CRITICAL — Natural blending requirements:\n` +
+            `- The hairline must blend seamlessly into the forehead skin with NO visible edge, seam, or artifact\n` +
+            `- Individual hair strands at the hairline and temples must appear to grow naturally from the scalp\n` +
+            `- Hair roots and scalp must match the person's skin tone and look anatomically correct\n` +
+            `- Hair should cast natural, soft shadows on the forehead and sides of the face consistent with the scene lighting\n` +
+            `- The hair texture, sheen, and highlights must match the lighting direction in Image 1\n` +
+            `- Flyaway strands and micro-details at the edges must be rendered realistically\n\n` +
+            `PRESERVE exactly from Image 1:\n` +
+            `- Face, skin tone, facial features, expression\n` +
+            `- Clothing, accessories (glasses, earrings, necklace, etc.)\n` +
+            `- Body pose, background, and lighting\n\n` +
+            `CHANGE only: hair shape, length, style, color, and texture to match Image 2.\n` +
+            `Output the final photorealistic image directly.`;
 
         aiBtn.disabled = true;
         aiBtn.textContent = '생성 중...';
