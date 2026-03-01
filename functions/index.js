@@ -1,10 +1,19 @@
 const { onRequest } = require("firebase-functions/v2/https");
+const { defineSecret } = require("firebase-functions/params");
 
-const GEMINI_API_KEY = "AIzaSyB_ipwUb2Rvl6lxXgMMl_2VuFXis0msFwo";
-const ALLOWED_MODELS = ["gemini-2.5-flash-image", "gemini-3-pro-image-preview"];
+const geminiApiKey = defineSecret("GEMINI_API_KEY");
+
+// ✅ 최신 모델명으로 업데이트 (2026.03 기준)
+// gemini-3-pro-image-preview → 2026.03.09 이후 종료 예정
+const ALLOWED_MODELS = [
+  "gemini-2.5-flash-image",          // 안정적인 메인 모델
+  "gemini-3.1-flash-image-preview",  // 최신 고속 모델 (Nano Banana 2)
+  "gemini-3-pro-image-preview",      // 레거시 지원
+];
 exports.geminiProxy = onRequest(
-  { region: "asia-northeast3", invoker: "public", cors: true },
+  { region: "asia-northeast3", invoker: "public", cors: true, secrets: [geminiApiKey] },
   async (req, res) => {
+    const GEMINI_API_KEY = geminiApiKey.value();
     if (req.method !== "POST") {
       return res.status(405).json({ error: "Method not allowed" });
     }

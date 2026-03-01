@@ -645,9 +645,185 @@
             border-bottom: 1.5px solid #e2e8f0;
         }
 
+        /* ── Mode Tabs ── */
+        .mode-tabs {
+            display: flex;
+            gap: 8px;
+            max-width: 1100px;
+            margin: 0 auto 16px;
+        }
+        .mode-tab {
+            padding: 10px 24px;
+            border-radius: 12px;
+            font-family: inherit;
+            font-size: 0.95rem;
+            font-weight: 700;
+            border: 2px solid rgba(255,255,255,0.5);
+            cursor: pointer;
+            transition: all 0.2s;
+            color: rgba(255,255,255,0.8);
+            background: rgba(255,255,255,0.15);
+        }
+        .mode-tab.active {
+            background: #fff;
+            color: #7c3aed;
+            border-color: #fff;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        .mode-tab:hover:not(.active) { background: rgba(255,255,255,0.25); }
+        .mode-panel { display: none; }
+        .mode-panel.active { display: block; }
+
+        /* ── Lookbook Grid ── */
+        .lookbook-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            margin-top: 16px;
+        }
+        .lookbook-item {
+            background: #f5f3ff;
+            border: 2px solid #c4b5fd;
+            border-radius: 14px;
+            overflow: hidden;
+            position: relative;
+        }
+        .lookbook-label {
+            position: absolute;
+            top: 8px; left: 8px;
+            background: rgba(124,58,237,0.9);
+            color: #fff;
+            font-size: 0.72rem;
+            font-weight: 800;
+            padding: 4px 10px;
+            border-radius: 20px;
+            z-index: 2;
+        }
+        .lookbook-item img { width: 100%; display: block; border-radius: 10px; }
+        .lookbook-item-placeholder {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 200px;
+            gap: 6px;
+            color: #a78bfa;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        .lookbook-item-placeholder .lk-icon { font-size: 2rem; }
+        .lookbook-download {
+            display: block;
+            width: 100%;
+            padding: 7px;
+            text-align: center;
+            background: rgba(124,58,237,0.08);
+            color: #7c3aed;
+            font-size: 0.78rem;
+            font-weight: 700;
+            border: none;
+            border-top: 1px solid rgba(124,58,237,0.15);
+            cursor: pointer;
+            font-family: inherit;
+            transition: background 0.15s;
+        }
+        .lookbook-download:hover { background: rgba(124,58,237,0.18); }
+        .lookbook-progress {
+            margin-top: 12px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: #7c3aed;
+            text-align: center;
+        }
+
+        /* ── Trend Section ── */
+        .trend-section {
+            max-width: 1100px;
+            margin: 24px auto 0;
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.10);
+            padding: 28px;
+        }
+        .trend-title {
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: #1f2937;
+            margin-bottom: 4px;
+        }
+        .trend-sub {
+            font-size: 0.82rem;
+            color: #6b7280;
+            margin-bottom: 18px;
+        }
+        .trend-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 10px;
+        }
+        .trend-item {
+            border-radius: 12px;
+            overflow: hidden;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: #f5f3ff;
+            text-align: center;
+        }
+        .trend-item:hover { border-color: #7c3aed; transform: translateY(-2px); }
+        .trend-item-img {
+            width: 100%;
+            aspect-ratio: 1;
+            background: linear-gradient(135deg, #e9d5ff, #c4b5fd);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+        }
+        .trend-item-name {
+            padding: 6px 4px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: #5b21b6;
+            line-height: 1.3;
+        }
+
+        /* ── Share Buttons ── */
+        .share-row {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid #e9d5ff;
+        }
+        .share-label {
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: #8b5cf6;
+        }
+        .btn-share {
+            padding: 6px 14px;
+            border: none;
+            border-radius: 20px;
+            font-family: inherit;
+            font-size: 0.78rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-kakao { background: #FEE500; color: #191919; }
+        .btn-kakao:hover { filter: brightness(0.92); }
+        .btn-copy-link { background: #f3f4f6; color: #374151; }
+        .btn-copy-link:hover { background: #e5e7eb; }
+        .btn-x-share { background: #000; color: #fff; }
+        .btn-x-share:hover { background: #333; }
+
         @media (max-width: 768px) {
             .main-layout { grid-template-columns: 1fr; }
             .bottom-section { grid-template-columns: 1fr; }
+            .trend-grid { grid-template-columns: repeat(3, 1fr); }
         }
 
         @media (max-width: 540px) {
@@ -667,10 +843,18 @@
     </nav>
 
     <div class="page-header">
-        <h1>✂️ 헤어스타일 변환</h1>
+        <h1>✂️ AI 헤어 & 스타일 변환</h1>
         <p>내 사진과 원하는 헤어스타일 사진을 올리면 AI가 헤어스타일을 바꿔드려요</p>
     </div>
 
+    <!-- ── Mode Tabs ── -->
+    <div class="mode-tabs">
+        <button class="mode-tab active" data-tab="hair">💇 헤어 합성</button>
+        <button class="mode-tab" data-tab="lookbook">👗 스타일 룩북</button>
+    </div>
+
+    <!-- ══════════ TAB 1: 헤어 합성 ══════════ -->
+    <div class="mode-panel active" id="panel-hair">
     <div class="main-layout">
         <!-- Left: Main Area -->
         <div class="card">
@@ -727,6 +911,13 @@
                     <button class="btn btn-download" id="ai-download-btn">💾 결과 저장</button>
                     <button class="btn btn-secondary" id="ai-close-btn">닫기</button>
                 </div>
+                <!-- Share Row -->
+                <div class="share-row">
+                    <span class="share-label">공유:</span>
+                    <button class="btn-share btn-kakao" id="share-kakao">💬 카카오톡</button>
+                    <button class="btn-share btn-x-share" id="share-x">𝕏 트위터</button>
+                    <button class="btn-share btn-copy-link" id="share-copy">🔗 링크 복사</button>
+                </div>
             </div>
         </div>
 
@@ -742,8 +933,153 @@
                     4. 결과 저장<br><br>
                     <strong>📌 팁</strong>
                     • 얼굴이 정면으로 잘 나온 사진일수록 좋아요<br>
-                    • 헤어스타일이 선명하게 보이는 참고 사진을 사용하세요
+                    • 헤어스타일이 선명하게 보이는 참고 사진을 사용하세요<br>
+                    • <strong>스타일 룩북</strong> 탭에서 전신 코디도 체험해보세요 ✨
                 </div>
+            </div>
+        </div>
+    </div>
+    </div> <!-- /panel-hair -->
+
+    <!-- ══════════ TAB 2: 스타일 룩북 ══════════ -->
+    <div class="mode-panel" id="panel-lookbook">
+    <div class="main-layout">
+        <div class="card">
+            <div class="upload-pair">
+                <!-- My photo -->
+                <div class="upload-zone">
+                    <div class="upload-zone-label">
+                        📷 내 사진
+                        <span class="badge">얼굴 기준</span>
+                    </div>
+                    <div class="upload-area" id="lb-my-upload-area">
+                        <div class="photo-preview-placeholder" id="lb-my-placeholder">
+                            <div class="upload-icon">🧑</div>
+                            <h3>내 사진 업로드</h3>
+                            <p>얼굴이 잘 보이는 사진</p>
+                        </div>
+                        <img class="photo-preview-img" id="lb-my-photo-img" style="display:none;" alt="내 사진">
+                        <button class="change-photo-btn" id="lb-my-change-btn" style="display:none;">사진 변경</button>
+                    </div>
+                    <input type="file" class="file-input" id="lb-my-file-input" accept="image/*">
+                </div>
+                <!-- Reference hairstyle -->
+                <div class="upload-zone">
+                    <div class="upload-zone-label">
+                        💇 헤어스타일 참고 사진
+                        <span class="badge">헤어 기준</span>
+                    </div>
+                    <div class="upload-area" id="lb-ref-upload-area">
+                        <div class="photo-preview-placeholder" id="lb-ref-placeholder">
+                            <div class="upload-icon">💁</div>
+                            <h3>참고 사진 업로드</h3>
+                            <p>원하는 헤어스타일 사진</p>
+                        </div>
+                        <img class="photo-preview-img" id="lb-ref-photo-img" style="display:none;" alt="헤어스타일 참고 사진">
+                        <button class="change-photo-btn" id="lb-ref-change-btn" style="display:none;">사진 변경</button>
+                    </div>
+                    <input type="file" class="file-input" id="lb-ref-file-input" accept="image/*">
+                </div>
+            </div>
+            <button class="btn-ai" id="lb-ai-btn">✨ 4가지 전신 스타일 룩북 생성하기</button>
+            <p id="lb-progress" class="lookbook-progress" style="display:none;"></p>
+            <div class="lookbook-grid" id="lookbook-grid">
+                <div class="lookbook-item">
+                    <span class="lookbook-label">캐주얼</span>
+                    <div class="lookbook-item-placeholder" id="lb-casual-ph"><span class="lk-icon">👟</span><span>캐주얼 스타일</span></div>
+                    <img id="lb-img-casual" style="display:none;" alt="캐주얼 룩">
+                    <button class="lookbook-download" id="lb-dl-casual" style="display:none;">💾 저장</button>
+                </div>
+                <div class="lookbook-item">
+                    <span class="lookbook-label">오피스룩</span>
+                    <div class="lookbook-item-placeholder" id="lb-office-ph"><span class="lk-icon">👔</span><span>오피스 스타일</span></div>
+                    <img id="lb-img-office" style="display:none;" alt="오피스 룩">
+                    <button class="lookbook-download" id="lb-dl-office" style="display:none;">💾 저장</button>
+                </div>
+                <div class="lookbook-item">
+                    <span class="lookbook-label">데이트룩</span>
+                    <div class="lookbook-item-placeholder" id="lb-date-ph"><span class="lk-icon">🌸</span><span>데이트 스타일</span></div>
+                    <img id="lb-img-date" style="display:none;" alt="데이트 룩">
+                    <button class="lookbook-download" id="lb-dl-date" style="display:none;">💾 저장</button>
+                </div>
+                <div class="lookbook-item">
+                    <span class="lookbook-label">스트릿 패션</span>
+                    <div class="lookbook-item-placeholder" id="lb-street-ph"><span class="lk-icon">🎒</span><span>스트릿 스타일</span></div>
+                    <img id="lb-img-street" style="display:none;" alt="스트릿 룩">
+                    <button class="lookbook-download" id="lb-dl-street" style="display:none;">💾 저장</button>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="card sidebar-card">
+                <div class="tip-box">
+                    <strong>👗 스타일 룩북이란?</strong>
+                    내 얼굴과 원하는 헤어스타일로<br>
+                    <strong>4가지 다양한 전신 패션</strong>을 한 번에 체험!<br><br>
+                    • 캐주얼 / 오피스룩 / 데이트룩 / 스트릿 패션<br>
+                    • 각 스타일별 다양한 포즈로 생성<br>
+                    • 각 이미지 개별 저장 가능<br><br>
+                    <strong>📌 팁</strong><br>
+                    • 얼굴 전체가 잘 보이는 정면 사진 권장<br>
+                    • 이미지 4장을 순차 생성하므로 약 1~2분 소요됩니다
+                </div>
+            </div>
+        </div>
+    </div>
+    </div> <!-- /panel-lookbook -->
+
+    <!-- ── 트렌드 헤어스타일 ── -->
+    <div class="trend-section">
+        <div class="trend-title">🔥 2025 트렌드 헤어스타일</div>
+        <div class="trend-sub">아래 스타일을 클릭하면 참고 사진 없이도 바로 시뮬레이션할 수 있어요</div>
+        <div class="trend-grid">
+            <div class="trend-item" data-style="울프컷" onclick="selectTrend(this)">
+                <div class="trend-item-img">🐺</div>
+                <div class="trend-item-name">울프컷</div>
+            </div>
+            <div class="trend-item" data-style="히메컷" onclick="selectTrend(this)">
+                <div class="trend-item-img">👸</div>
+                <div class="trend-item-name">히메컷</div>
+            </div>
+            <div class="trend-item" data-style="레이어드컷" onclick="selectTrend(this)">
+                <div class="trend-item-img">✂️</div>
+                <div class="trend-item-name">레이어드컷</div>
+            </div>
+            <div class="trend-item" data-style="허시컷" onclick="selectTrend(this)">
+                <div class="trend-item-img">🌿</div>
+                <div class="trend-item-name">허시컷</div>
+            </div>
+            <div class="trend-item" data-style="S컬 펌" onclick="selectTrend(this)">
+                <div class="trend-item-img">🌊</div>
+                <div class="trend-item-name">S컬 펌</div>
+            </div>
+            <div class="trend-item" data-style="숏컷" onclick="selectTrend(this)">
+                <div class="trend-item-img">💇</div>
+                <div class="trend-item-name">숏컷</div>
+            </div>
+            <div class="trend-item" data-style="애즈컷" onclick="selectTrend(this)">
+                <div class="trend-item-img">⚡</div>
+                <div class="trend-item-name">애즈컷</div>
+            </div>
+            <div class="trend-item" data-style="포마드 슬릭백" onclick="selectTrend(this)">
+                <div class="trend-item-img">🎩</div>
+                <div class="trend-item-name">슬릭백</div>
+            </div>
+            <div class="trend-item" data-style="투블럭" onclick="selectTrend(this)">
+                <div class="trend-item-img">🏙️</div>
+                <div class="trend-item-name">투블럭</div>
+            </div>
+            <div class="trend-item" data-style="코르크스크류 컬" onclick="selectTrend(this)">
+                <div class="trend-item-img">🔄</div>
+                <div class="trend-item-name">컬 펌</div>
+            </div>
+            <div class="trend-item" data-style="내추럴 웨이브 롱헤어" onclick="selectTrend(this)">
+                <div class="trend-item-img">🌺</div>
+                <div class="trend-item-name">내추럴 웨이브</div>
+            </div>
+            <div class="trend-item" data-style="밀크티 발레아쥬 컬러" onclick="selectTrend(this)">
+                <div class="trend-item-img">🍵</div>
+                <div class="trend-item-name">밀크티 컬러</div>
             </div>
         </div>
     </div>
@@ -817,8 +1153,13 @@
 
     <script>
     // ── State ─────────────────────────────────────────────────────────────────
-    let myImage  = null;  // { data: base64, mimeType: string }
-    let refImage = null;  // { data: base64, mimeType: string }
+    let myImage   = null;  // { data: base64, mimeType: string }
+    let refImage  = null;
+    let lbMyImage = null;
+    let lbRefImage = null;
+
+    const PROXY_URL = 'https://asia-northeast3-tuberank-explorer-2ala7.cloudfunctions.net/geminiProxy';
+    const MODEL = 'gemini-3.1-flash-image-preview'; // ✅ 최신 Nano Banana 2
 
     // ── DOM refs ──────────────────────────────────────────────────────────────
     const toastEl        = document.getElementById('toast');
@@ -835,6 +1176,16 @@
         clearTimeout(toastTimer);
         toastTimer = setTimeout(() => toastEl.classList.remove('show'), 3000);
     }
+
+    // ── Tab Switching ──────────────────────────────────────────────────────────
+    document.querySelectorAll('.mode-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+            document.querySelectorAll('.mode-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.mode-panel').forEach(p => p.classList.remove('active'));
+            tab.classList.add('active');
+            document.getElementById('panel-' + tab.dataset.tab).classList.add('active');
+        });
+    });
 
     // ── Upload helper ─────────────────────────────────────────────────────────
     function setupUpload({ areaId, fileInputId, imgId, placeholderId, changeBtnId, onLoad }) {
@@ -907,30 +1258,76 @@
         onLoad: (img) => { refImage = img; }
     });
 
-    // ── AI Generate ───────────────────────────────────────────────────────────
+    // Lookbook uploads
+    setupUpload({
+        areaId: 'lb-my-upload-area',
+        fileInputId: 'lb-my-file-input',
+        imgId: 'lb-my-photo-img',
+        placeholderId: 'lb-my-placeholder',
+        changeBtnId: 'lb-my-change-btn',
+        onLoad: (img) => { lbMyImage = img; }
+    });
+    setupUpload({
+        areaId: 'lb-ref-upload-area',
+        fileInputId: 'lb-ref-file-input',
+        imgId: 'lb-ref-photo-img',
+        placeholderId: 'lb-ref-placeholder',
+        changeBtnId: 'lb-ref-change-btn',
+        onLoad: (img) => { lbRefImage = img; }
+    });
+
+    // ── Shared: API call helper ───────────────────────────────────────────────
+    async function callGeminiProxy(parts, loadingMsg) {
+        const res = await fetch(PROXY_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                model: MODEL,
+                contents: [{ role: 'user', parts }],
+                generationConfig: { responseModalities: ['TEXT', 'IMAGE'] }
+            })
+        });
+        const text = await res.text();
+        let data;
+        try { data = JSON.parse(text); } catch {
+            throw new Error(`서버 응답 파싱 실패 (HTTP ${res.status})`);
+        }
+        if (!res.ok) throw new Error(data?.error?.message || `서버 오류 (HTTP ${res.status})`);
+        const parts2 = data.candidates?.[0]?.content?.parts || [];
+        const found = parts2.find(p => p.inlineData?.mimeType?.startsWith('image/'));
+        if (!found) {
+            const reason = data.candidates?.[0]?.finishReason || '';
+            const textPart = parts2.find(p => p.text);
+            throw new Error(textPart?.text?.slice(0,120) || `생성 실패 (${reason})`);
+        }
+        return found.inlineData;
+    }
+
+    // ── 개선된 헤어 합성 프롬프트 (서술형 + 사진 촬영 용어) ────────────────
+    function buildHairPrompt() {
+        return (
+            `You are a world-class portrait retouching artist. ` +
+            `Image 1 is the subject. Image 2 is the hairstyle reference.\n\n` +
+            `Task: Produce a single photorealistic portrait of the person in Image 1, ` +
+            `but with the exact hairstyle from Image 2 — including its shape, length, texture, color, and volume — ` +
+            `seamlessly applied. The result must look like a professional photograph taken with an 85mm f/1.8 portrait lens, ` +
+            `with soft natural bokeh and studio-quality soft-box lighting that matches the original scene in Image 1.\n\n` +
+            `BLENDING REQUIREMENTS (critical for realism):\n` +
+            `Render individual hair strands at the hairline and temples that appear to grow organically from the scalp. ` +
+            `The transition between hairline and forehead skin must be imperceptible — no hard edges, seams, masks, or halos. ` +
+            `Hair roots must match the subject's skin tone. Hair sheen, highlights, and micro-shadows must follow the ` +
+            `exact same lighting direction as Image 1. Wispy flyaway strands should be visible at the periphery for realism.\n\n` +
+            `PRESERVE EXACTLY from Image 1: the subject's face, eye color, skin tone, facial features, expression, makeup, ` +
+            `clothing, all accessories (glasses, earrings, jewelry, hat if present), body posture, background, and scene lighting.\n\n` +
+            `CHANGE ONLY: hairstyle shape, length, cut, color, and texture to match Image 2.\n` +
+            `Output ONLY the final photorealistic image. No text, no captions, no watermarks.`
+        );
+    }
+
+    // ── AI Generate (헤어 합성) ───────────────────────────────────────────────
     aiBtn.addEventListener('click', async () => {
         if (!myImage)  { showToast('내 사진을 업로드해주세요.'); return; }
-        if (!refImage)     { showToast('헤어스타일 참고 사진을 업로드해주세요.'); return; }
-
-        const model = 'gemini-3-pro-image-preview';
-
-        const prompt =
-            `You are an expert AI photo retouching artist specializing in photorealistic hair replacement.\n` +
-            `Image 1 is the subject. Image 2 is the hairstyle reference.\n\n` +
-            `Task: Replace the hair in Image 1 with the hairstyle from Image 2. The final result must look like a real photograph — completely indistinguishable from a photo taken in a real salon.\n\n` +
-            `CRITICAL — Natural blending requirements:\n` +
-            `- The hairline must blend seamlessly into the forehead skin with NO visible edge, seam, or artifact\n` +
-            `- Individual hair strands at the hairline and temples must appear to grow naturally from the scalp\n` +
-            `- Hair roots and scalp must match the person's skin tone and look anatomically correct\n` +
-            `- Hair should cast natural, soft shadows on the forehead and sides of the face consistent with the scene lighting\n` +
-            `- The hair texture, sheen, and highlights must match the lighting direction in Image 1\n` +
-            `- Flyaway strands and micro-details at the edges must be rendered realistically\n\n` +
-            `PRESERVE exactly from Image 1:\n` +
-            `- Face, skin tone, facial features, expression\n` +
-            `- Clothing, accessories (glasses, earrings, necklace, etc.)\n` +
-            `- Body pose, background, and lighting\n\n` +
-            `CHANGE only: hair shape, length, style, color, and texture to match Image 2.\n` +
-            `Output the final photorealistic image directly.`;
+        if (!refImage) { showToast('헤어스타일 참고 사진을 업로드해주세요.'); return; }
 
         aiBtn.disabled = true;
         aiBtn.textContent = '생성 중...';
@@ -938,56 +1335,16 @@
         aiResultSec.style.display = 'none';
 
         try {
-            const res = await fetch('https://asia-northeast3-tuberank-explorer-2ala7.cloudfunctions.net/geminiProxy', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    model,
-                    contents: [{
-                        role: 'user',
-                        parts: [
-                            { inlineData: { mimeType: myImage.mimeType,  data: myImage.data  } },
-                            { inlineData: { mimeType: refImage.mimeType, data: refImage.data } },
-                            { text: prompt }
-                        ]
-                    }],
-                    generationConfig: {
-                        responseModalities: ['TEXT', 'IMAGE']
-                    }
-                })
-            });
+            const imgData = await callGeminiProxy([
+                { inlineData: { mimeType: myImage.mimeType,  data: myImage.data  } },
+                { inlineData: { mimeType: refImage.mimeType, data: refImage.data } },
+                { text: buildHairPrompt() }
+            ]);
 
-            const text = await res.text();
-            let data;
-            try {
-                data = JSON.parse(text);
-            } catch {
-                throw new Error(`서버 응답 파싱 실패 (HTTP ${res.status}). 잠시 후 다시 시도해주세요.`);
-            }
-
-            if (!res.ok) {
-                throw new Error(data?.error?.message || `서버 오류 (HTTP ${res.status})`);
-            }
-            console.log('Gemini response:', JSON.stringify(data, null, 2));
-            const parts = data.candidates?.[0]?.content?.parts || [];
-            const found = parts.find(p => p.inlineData?.mimeType?.startsWith('image/'));
-            if (!found) {
-                const textPart = parts.find(p => p.text);
-                const reason   = data.candidates?.[0]?.finishReason || '';
-                const msg      = textPart?.text
-                    ? `모델 응답: ${textPart.text.slice(0, 120)}`
-                    : reason
-                        ? `생성 실패 (${reason}). 다른 모델을 시도해보세요.`
-                        : '이미지를 생성하지 못했습니다. 다른 모델을 시도해보세요.';
-                throw new Error(msg);
-            }
-
-            const imgPart = found.inlineData;
-            aiResultImg.src = `data:${imgPart.mimeType};base64,${imgPart.data}`;
+            aiResultImg.src = `data:${imgData.mimeType};base64,${imgData.data}`;
             aiResultSec.style.display = 'block';
             aiResultSec.scrollIntoView({ behavior: 'smooth', block: 'start' });
             showToast('AI 헤어스타일 변환 완료!');
-
         } catch (e) {
             showToast(`오류: ${e.message}`);
             console.error(e);
@@ -998,7 +1355,7 @@
         }
     });
 
-    // ── AI Result Download ────────────────────────────────────────────────────
+    // ── AI Result: Download & Close ────────────────────────────────────────────
     document.getElementById('ai-download-btn').addEventListener('click', () => {
         const a = document.createElement('a');
         a.href = aiResultImg.src;
@@ -1009,6 +1366,152 @@
 
     document.getElementById('ai-close-btn').addEventListener('click', () => {
         aiResultSec.style.display = 'none';
+    });
+
+    // ── Share Buttons ──────────────────────────────────────────────────────────
+    document.getElementById('share-kakao').addEventListener('click', () => {
+        showToast('카카오톡 공유: 결과를 저장 후 카카오톡에서 공유해주세요!');
+    });
+    document.getElementById('share-x').addEventListener('click', () => {
+        const url = encodeURIComponent(location.href);
+        const text = encodeURIComponent('AI로 헤어스타일 변환했어요! ✂️ #AI헤어변환 #헤어스타일');
+        window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}`, '_blank');
+    });
+    document.getElementById('share-copy').addEventListener('click', () => {
+        navigator.clipboard.writeText(location.href).then(() => showToast('링크가 복사되었습니다!'));
+    });
+
+    // ── Trend Hairstyle: AI-powered direct generation ─────────────────────────
+    let selectedTrendStyle = null;
+    function selectTrend(el) {
+        document.querySelectorAll('.trend-item').forEach(i => i.style.borderColor = '');
+        el.style.borderColor = '#7c3aed';
+        selectedTrendStyle = el.dataset.style;
+        // Switch to hair tab and show toast
+        document.querySelectorAll('.mode-tab')[0].click();
+        showToast(`"${selectedTrendStyle}" 스타일 선택됨! 내 사진을 업로드하고 변환하기를 눌러보세요.`);
+        // Store selected style to use in prompt if no ref image
+        window._trendStyle = selectedTrendStyle;
+    }
+
+    // Override AI btn to support trend style without ref image
+    const origAiClick = aiBtn.onclick;
+    aiBtn.addEventListener('click', async (e) => {
+        // If trend style selected but no ref image, use text-only style description
+        if (!refImage && window._trendStyle) {
+            if (!myImage) { showToast('내 사진을 업로드해주세요.'); return; }
+            aiBtn.disabled = true;
+            aiBtn.textContent = '생성 중...';
+            loadingOverlay.classList.add('show');
+            aiResultSec.style.display = 'none';
+            const trendPrompt =
+                `You are a world-class portrait retouching artist. ` +
+                `The provided image is the subject.\n\n` +
+                `Task: Replace the subject's current hair with a photorealistic "${window._trendStyle}" hairstyle. ` +
+                `The result must look like a professional 85mm portrait lens photograph with soft natural bokeh.\n\n` +
+                `BLENDING: Hairline must blend seamlessly with forehead skin. Individual strands must appear to grow ` +
+                `naturally from the scalp. Match lighting and skin tone for roots. Preserve wispy flyaways.\n\n` +
+                `PRESERVE: Face, skin tone, features, expression, clothing, accessories, background, lighting.\n` +
+                `CHANGE ONLY: Hairstyle to "${window._trendStyle}".\n` +
+                `Output ONLY the final photorealistic image.`;
+            try {
+                const imgData = await callGeminiProxy([
+                    { inlineData: { mimeType: myImage.mimeType, data: myImage.data } },
+                    { text: trendPrompt }
+                ]);
+                aiResultImg.src = `data:${imgData.mimeType};base64,${imgData.data}`;
+                aiResultSec.style.display = 'block';
+                aiResultSec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                showToast(`${window._trendStyle} 변환 완료!`);
+            } catch(e) {
+                showToast(`오류: ${e.message}`);
+            } finally {
+                loadingOverlay.classList.remove('show');
+                aiBtn.disabled = false;
+                aiBtn.innerHTML = '✨ AI 헤어스타일 변환하기';
+            }
+        }
+    }, true);
+
+    // ── Lookbook Generator ────────────────────────────────────────────────────
+    const LOOKBOOK_STYLES = [
+        { id: 'casual',  label: '캐주얼',    ph: 'lb-casual-ph',  img: 'lb-img-casual',  dl: 'lb-dl-casual',
+          scene: 'a relaxed outdoor cafe street scene, sunny day',
+          outfit: 'stylish casual outfit — oversized hoodie or trendy T-shirt with wide-leg jeans and clean sneakers',
+          pose: 'walking naturally with a relaxed smile, full body shot' },
+        { id: 'office',  label: '오피스룩',   ph: 'lb-office-ph',  img: 'lb-img-office',  dl: 'lb-dl-office',
+          scene: 'a modern bright office lobby with glass walls',
+          outfit: 'smart office attire — tailored blazer with fitted trousers or a pencil skirt and low heels',
+          pose: 'standing confidently with arms slightly crossed, full body shot' },
+        { id: 'date',    label: '데이트룩',   ph: 'lb-date-ph',    img: 'lb-img-date',    dl: 'lb-dl-date',
+          scene: 'a cozy romantic restaurant with warm candlelight and bokeh lights in the background',
+          outfit: 'elegant date outfit — flowy midi dress or chic blouse with statement accessories',
+          pose: 'smiling warmly, slight three-quarter turn, full body shot' },
+        { id: 'street',  label: '스트릿',     ph: 'lb-street-ph',  img: 'lb-img-street',  dl: 'lb-dl-street',
+          scene: 'a trendy urban street with murals and city lights at golden hour',
+          outfit: 'bold street fashion — graphic hoodie, cargo pants, chunky sneakers, and layered accessories',
+          pose: 'cool dynamic pose looking slightly to the side, full body shot' },
+    ];
+
+    function buildLookbookPrompt(style, hairStyle) {
+        return (
+            `You are a fashion photographer and portrait retouching artist.\n\n` +
+            `Image 1 is the subject (their face and identity must be preserved exactly). ` +
+            `Image 2 shows a hairstyle that must be applied to the subject.\n\n` +
+            `Create a single photorealistic FULL-BODY fashion photograph of the subject wearing: ${style.outfit}. ` +
+            `Setting: ${style.scene}. ` +
+            `Pose: ${style.pose}. ` +
+            `Shoot this as if captured with a Sony A7R IV camera, 35mm f/2 lens, natural light mixed with professional fill light. ` +
+            `The image should look like a high-end fashion editorial or Instagram-ready photo.\n\n` +
+            `APPLY to the subject: the hairstyle from Image 2 — exact shape, length, color, and texture.\n` +
+            `HAIR BLENDING: Hairline and temples must blend seamlessly with the skin. No hard edges or halos. ` +
+            `Hair highlights and shadows must match the scene's lighting direction.\n\n` +
+            `PRESERVE EXACTLY: The subject's face, eyes, skin tone, and facial features from Image 1.\n` +
+            `OUTPUT: Only the final photorealistic full-body image. No text, no captions.`
+        );
+    }
+
+    document.getElementById('lb-ai-btn').addEventListener('click', async () => {
+        if (!lbMyImage)  { showToast('내 사진을 업로드해주세요.'); return; }
+        if (!lbRefImage) { showToast('헤어스타일 참고 사진을 업로드해주세요.'); return; }
+
+        const lbBtn = document.getElementById('lb-ai-btn');
+        const progress = document.getElementById('lb-progress');
+        lbBtn.disabled = true;
+        lbBtn.textContent = '생성 중...';
+        progress.style.display = 'block';
+
+        for (let i = 0; i < LOOKBOOK_STYLES.length; i++) {
+            const s = LOOKBOOK_STYLES[i];
+            progress.textContent = `⏳ (${i+1}/4) ${s.label} 스타일 생성 중...`;
+            document.getElementById(s.ph).innerHTML = `<span class="lk-icon">⏳</span><span>${s.label} 생성 중...</span>`;
+            try {
+                const imgData = await callGeminiProxy([
+                    { inlineData: { mimeType: lbMyImage.mimeType,  data: lbMyImage.data } },
+                    { inlineData: { mimeType: lbRefImage.mimeType, data: lbRefImage.data } },
+                    { text: buildLookbookPrompt(s) }
+                ]);
+                const imgEl = document.getElementById(s.img);
+                const dlBtn = document.getElementById(s.dl);
+                imgEl.src = `data:${imgData.mimeType};base64,${imgData.data}`;
+                imgEl.style.display = 'block';
+                document.getElementById(s.ph).style.display = 'none';
+                dlBtn.style.display = 'block';
+                dlBtn.onclick = () => {
+                    const a = document.createElement('a');
+                    a.href = imgEl.src;
+                    a.download = `lookbook-${s.id}.png`;
+                    a.click();
+                };
+            } catch(e) {
+                document.getElementById(s.ph).innerHTML = `<span class="lk-icon">❌</span><span>${s.label} 생성 실패</span>`;
+                console.error(s.label, e);
+            }
+        }
+
+        progress.textContent = '✅ 룩북 생성 완료! 각 이미지를 저장해보세요.';
+        lbBtn.disabled = false;
+        lbBtn.innerHTML = '✨ 4가지 전신 스타일 룩북 생성하기';
     });
     </script>
 
