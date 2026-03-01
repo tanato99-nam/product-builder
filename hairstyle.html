@@ -1277,30 +1277,34 @@
     });
 
     // ── Shared: API call helper ───────────────────────────────────────────────
-    async function callGeminiProxy(parts, loadingMsg) {
-        const res = await fetch(PROXY_URL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                model: MODEL,
-                contents: [{ role: 'user', parts }],
-                generationConfig: { responseModalities: ['TEXT', 'IMAGE'] }
-            })
-        });
-        const text = await res.text();
-        let data;
-        try { data = JSON.parse(text); } catch {
-            throw new Error(`서버 응답 파싱 실패 (HTTP ${res.status})`);
-        }
-        if (!res.ok) throw new Error(data?.error?.message || `서버 오류 (HTTP ${res.status})`);
-        const parts2 = data.candidates?.[0]?.content?.parts || [];
-        const found = parts2.find(p => p.inlineData?.mimeType?.startsWith('image/'));
-        if (!found) {
+    async function callGeminiProxy(parts, retries = 2) {
+        for (let attempt = 0; attempt <= retries; attempt++) {
+            const res = await fetch(PROXY_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    model: MODEL,
+                    contents: [{ role: 'user', parts }],
+                    generationConfig: { responseModalities: ['TEXT', 'IMAGE'] }
+                })
+            });
+            const text = await res.text();
+            let data;
+            try { data = JSON.parse(text); } catch {
+                throw new Error(`서버 응답 파싱 실패 (HTTP ${res.status})`);
+            }
+            if (!res.ok) throw new Error(data?.error?.message || `서버 오류 (HTTP ${res.status})`);
+            const parts2 = data.candidates?.[0]?.content?.parts || [];
+            const found = parts2.find(p => p.inlineData?.mimeType?.startsWith('image/'));
+            if (found) return found.inlineData;
+            if (attempt < retries) {
+                await new Promise(r => setTimeout(r, 3000));
+                continue;
+            }
             const reason = data.candidates?.[0]?.finishReason || '';
             const textPart = parts2.find(p => p.text);
             throw new Error(textPart?.text?.slice(0,120) || `생성 실패 (${reason})`);
         }
-        return found.inlineData;
     }
 
     // ── 개선된 헤어 합성 프롬프트 (서술형 + 사진 촬영 용어) ────────────────
@@ -1453,21 +1457,23 @@
           pose: 'cool dynamic pose looking slightly to the side, full body shot' },
     ];
 
-    function buildLookbookPrompt(style, hairStyle) {
+    function buildLookbookPrompt(style) {
         return (
-            `You are a fashion photographer and portrait retouching artist.\n\n` +
-            `Image 1 is the subject (their face and identity must be preserved exactly). ` +
-            `Image 2 shows a hairstyle that must be applied to the subject.\n\n` +
-            `Create a single photorealistic FULL-BODY fashion photograph of the subject wearing: ${style.outfit}. ` +
-            `Setting: ${style.scene}. ` +
-            `Pose: ${style.pose}. ` +
-            `Shoot this as if captured with a Sony A7R IV camera, 35mm f/2 lens, natural light mixed with professional fill light. ` +
-            `The image should look like a high-end fashion editorial or Instagram-ready photo.\n\n` +
-            `APPLY to the subject: the hairstyle from Image 2 — exact shape, length, color, and texture.\n` +
-            `HAIR BLENDING: Hairline and temples must blend seamlessly with the skin. No hard edges or halos. ` +
-            `Hair highlights and shadows must match the scene's lighting direction.\n\n` +
-            `PRESERVE EXACTLY: The subject's face, eyes, skin tone, and facial features from Image 1.\n` +
-            `OUTPUT: Only the final photorealistic full-body image. No text, no captions.`
+            `You are a fashion photographer. You have two reference images:\n` +
+            `- Image 1: The SUBJECT. You must replicate this person's face with 100% fidelity.\n` +
+            `- Image 2: HAIRSTYLE REFERENCE ONLY. Extract ONLY the hair shape, length, color, and texture. Ignore everything else in Image 2.\n\n` +
+            `TASK: Generate a single photorealistic FULL-BODY fashion photo of the subject from Image 1.\n` +
+            `OUTFIT: ${style.outfit}\n` +
+            `SETTING: ${style.scene}\n` +
+            `POSE: ${style.pose}\n` +
+            `CAMERA: Sony A7R IV, 35mm f/2, natural light with professional fill light. High-end fashion editorial quality.\n\n` +
+            `STRICT IDENTITY RULES:\n` +
+            `✅ PRESERVE from Image 1: The subject's exact face shape, eye color, nose, lips, jawline, skin tone, and ALL worn accessories — especially glasses, earrings, or any eyewear. If the subject wears glasses in Image 1, they MUST wear the same glasses in the output.\n` +
+            `✅ APPLY from Image 2: ONLY the hairstyle — shape, length, color, texture, blended naturally at the hairline.\n` +
+            `❌ NEVER copy the face, eyes, nose, or any facial feature from Image 2.\n` +
+            `❌ NEVER remove or alter glasses or facial accessories from Image 1.\n` +
+            `❌ NEVER generate a different person — the face in the output must be identical to Image 1.\n\n` +
+            `OUTPUT: Only the final photorealistic full-body image. No text, no captions, no watermarks.`
         );
     }
 
