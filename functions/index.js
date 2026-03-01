@@ -3,7 +3,7 @@ const { defineSecret } = require("firebase-functions/params");
 
 const geminiApiKey = defineSecret("GEMINI_API_KEY");
 
-// ✅ 최신 모델명으로 업데이트 (2026.03 기준)
+// ✅ 최신 모델명으로 업데이트 (2026.03.01 기준)
 // gemini-3-pro-image-preview → 2026.03.09 이후 종료 예정
 const ALLOWED_MODELS = [
   "gemini-2.5-flash-image",          // 안정적인 메인 모델
