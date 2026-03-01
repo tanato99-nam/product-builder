@@ -1441,19 +1441,19 @@
     const LOOKBOOK_STYLES = [
         { id: 'casual',  label: '캐주얼',    ph: 'lb-casual-ph',  img: 'lb-img-casual',  dl: 'lb-dl-casual',
           scene: 'a relaxed outdoor cafe street scene, sunny day',
-          outfit: 'stylish casual outfit — oversized hoodie or trendy T-shirt with wide-leg jeans and clean sneakers',
+          outfit: 'stylish casual outfit matching the subject\'s gender — for male: oversized hoodie or graphic T-shirt with wide-leg jeans and clean sneakers; for female: cute top or cardigan with wide-leg jeans and sneakers',
           pose: 'walking naturally with a relaxed smile, full body shot' },
         { id: 'office',  label: '오피스룩',   ph: 'lb-office-ph',  img: 'lb-img-office',  dl: 'lb-dl-office',
           scene: 'a modern bright office lobby with glass walls',
-          outfit: 'smart office attire — tailored blazer with fitted trousers or a pencil skirt and low heels',
+          outfit: 'smart office attire matching the subject\'s gender — for male: tailored suit or blazer with dress trousers and Oxford shoes; for female: tailored blazer with fitted trousers or pencil skirt and heels',
           pose: 'standing confidently with arms slightly crossed, full body shot' },
         { id: 'date',    label: '데이트룩',   ph: 'lb-date-ph',    img: 'lb-img-date',    dl: 'lb-dl-date',
           scene: 'a cozy romantic restaurant with warm candlelight and bokeh lights in the background',
-          outfit: 'elegant date outfit — flowy midi dress or chic blouse with statement accessories',
+          outfit: 'elegant date outfit matching the subject\'s gender — for male: smart-casual button-up shirt with chinos and loafers; for female: flowy midi dress or chic blouse with statement accessories',
           pose: 'smiling warmly, slight three-quarter turn, full body shot' },
         { id: 'street',  label: '스트릿',     ph: 'lb-street-ph',  img: 'lb-img-street',  dl: 'lb-dl-street',
           scene: 'a trendy urban street with murals and city lights at golden hour',
-          outfit: 'bold street fashion — graphic hoodie, cargo pants, chunky sneakers, and layered accessories',
+          outfit: 'bold street fashion matching the subject\'s gender — graphic hoodie, cargo pants, chunky sneakers, and layered accessories',
           pose: 'cool dynamic pose looking slightly to the side, full body shot' },
     ];
 
@@ -1469,10 +1469,12 @@
             `CAMERA: Sony A7R IV, 35mm f/2, natural light with professional fill light. High-end fashion editorial quality.\n\n` +
             `STRICT IDENTITY RULES:\n` +
             `✅ PRESERVE from Image 1: The subject's exact face shape, eye color, nose, lips, jawline, skin tone, and ALL worn accessories — especially glasses, earrings, or any eyewear. If the subject wears glasses in Image 1, they MUST wear the same glasses in the output.\n` +
+            `✅ PRESERVE from Image 1: The subject's gender. Carefully identify whether the subject is male or female and dress them ONLY in gender-appropriate clothing.\n` +
             `✅ APPLY from Image 2: ONLY the hairstyle — shape, length, color, texture, blended naturally at the hairline.\n` +
             `❌ NEVER copy the face, eyes, nose, or any facial feature from Image 2.\n` +
             `❌ NEVER remove or alter glasses or facial accessories from Image 1.\n` +
-            `❌ NEVER generate a different person — the face in the output must be identical to Image 1.\n\n` +
+            `❌ NEVER generate a different person — the face in the output must be identical to Image 1.\n` +
+            `❌ NEVER dress a male subject in female clothing (skirts, dresses, heels) or a female subject in male clothing.\n\n` +
             `OUTPUT: Only the final photorealistic full-body image. No text, no captions, no watermarks.`
         );
     }
