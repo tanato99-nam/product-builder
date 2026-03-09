@@ -1,0 +1,12 @@
+# robots.txt for AI 도구 모음
+# https://product-builder-5qh.pages.dev
+
+User-agent: *
+Allow: /
+
+# Naver search bot
+User-agent: Yeti
+Allow: /
+
+# Sitemap location
+Sitemap: https://product-builder-5qh.pages.dev/sitemap.xml
