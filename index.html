@@ -731,15 +731,64 @@
         }
         .skip-link:focus { top: 0; }
 
+        /* ── Share Strip ── */
+        .share-strip {
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+            padding: 36px 20px;
+        }
+        .share-strip-inner {
+            max-width: 700px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .share-strip h2 {
+            color: #fff;
+            font-size: 1.3rem;
+            font-weight: 800;
+            margin-bottom: 6px;
+        }
+        .share-strip p {
+            color: rgba(255,255,255,0.8);
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+        }
+        .share-strip-btns {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .ssbtn {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 10px 18px;
+            border: none;
+            border-radius: 20px;
+            font-family: inherit;
+            font-size: 0.85rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.18s;
+        }
+        .ssbtn:hover { transform: translateY(-2px); box-shadow: 0 4px 14px rgba(0,0,0,0.2); }
+        .ssbtn-kakao { background: #FEE500; color: #191919; }
+        .ssbtn-x { background: #000; color: #fff; }
+        .ssbtn-facebook { background: #1877F2; color: #fff; }
+        .ssbtn-band { background: #00C73C; color: #fff; }
+        .ssbtn-copy { background: rgba(255,255,255,0.15); color: #fff; border: 1.5px solid rgba(255,255,255,0.4); }
+
         /* ── Responsive ── */
         @media (max-width: 768px) {
             .hero h1 { font-size: 2rem; }
             .tool-grid { grid-template-columns: 1fr; }
             .about-inner { grid-template-columns: 1fr; gap: 32px; }
             .guide-grid { grid-template-columns: 1fr; }
+            .share-strip-btns { gap: 8px; }
         }
         @media (max-width: 480px) {
             .hero { padding: 56px 20px; }
+            .ssbtn { font-size: 0.78rem; padding: 9px 14px; }
         }
     </style>
 </head>
@@ -867,6 +916,34 @@
                 </div>
             </div>
 
+        </div>
+    </section>
+
+    <!-- ── SNS Share Strip ── -->
+    <section class="share-strip" aria-label="서비스 공유">
+        <div class="share-strip-inner">
+            <h2>친구에게 알려주세요!</h2>
+            <p>미용실 가기 전 고민되는 친구에게 이 서비스를 공유해보세요. 완전 무료입니다.</p>
+            <div class="share-strip-btns">
+                <button class="ssbtn ssbtn-kakao" onclick="stripShare('kakao')">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3C6.477 3 2 6.477 2 10.5c0 2.488 1.39 4.694 3.5 6.065L4.5 20l4.167-2.268A11.3 11.3 0 0012 18c5.523 0 10-3.477 10-7.5S17.523 3 12 3z"/></svg>
+                    카카오톡 공유
+                </button>
+                <button class="ssbtn ssbtn-x" onclick="stripShare('x')">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                    X(트위터)
+                </button>
+                <button class="ssbtn ssbtn-facebook" onclick="stripShare('facebook')">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                    Facebook
+                </button>
+                <button class="ssbtn ssbtn-band" onclick="stripShare('band')">
+                    밴드
+                </button>
+                <button class="ssbtn ssbtn-copy" onclick="stripShare('copy')">
+                    🔗 링크 복사
+                </button>
+            </div>
         </div>
     </section>
 
@@ -1015,7 +1092,44 @@
         </div>
     </footer>
 
+    <div id="idx-toast" style="position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:#1f2937;color:#fff;padding:12px 24px;border-radius:50px;font-size:0.9rem;font-weight:600;z-index:9999;transition:transform 0.3s ease;pointer-events:none;"></div>
+
     <script>
+        // Toast
+        let _toastTimer;
+        function showIdxToast(msg) {
+            const t = document.getElementById('idx-toast');
+            t.textContent = msg;
+            t.style.transform = 'translateX(-50%) translateY(0)';
+            clearTimeout(_toastTimer);
+            _toastTimer = setTimeout(() => { t.style.transform = 'translateX(-50%) translateY(80px)'; }, 3000);
+        }
+
+        // Strip share
+        const STRIP_URL  = 'https://product-builder-5qh.pages.dev/hairstyle.html';
+        const STRIP_TEXT = 'AI로 헤어스타일 미리 체험해봤어요! ✂️ 미용실 가기 전 필수 — 완전 무료';
+        function stripShare(platform) {
+            if (platform === 'kakao') {
+                const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+                if (isMobile) {
+                    window.location.href = `kakaotalk://send?text=${encodeURIComponent(STRIP_TEXT + '\n' + STRIP_URL)}`;
+                    setTimeout(() => { navigator.clipboard.writeText(STRIP_URL).catch(()=>{}); showIdxToast('링크가 복사되었습니다!'); }, 1200);
+                } else {
+                    navigator.clipboard.writeText(STRIP_URL).then(() => showIdxToast('링크 복사됨! 카카오톡에 붙여넣기 하세요.'));
+                }
+            } else if (platform === 'x') {
+                const t = encodeURIComponent(STRIP_TEXT + ' #AI헤어변환 #헤어스타일');
+                window.open(`https://twitter.com/intent/tweet?text=${t}&url=${encodeURIComponent(STRIP_URL)}`, '_blank', 'width=600,height=400');
+            } else if (platform === 'facebook') {
+                window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(STRIP_URL)}`, '_blank', 'width=600,height=500');
+            } else if (platform === 'band') {
+                window.open(`https://band.us/plugin/share?body=${encodeURIComponent(STRIP_TEXT + '\n' + STRIP_URL)}&route=${encodeURIComponent(STRIP_URL)}`, '_blank', 'width=600,height=500');
+            } else if (platform === 'copy') {
+                navigator.clipboard.writeText(STRIP_URL).then(() => showIdxToast('링크가 복사되었습니다!'));
+            }
+            gtag('event', 'share', { method: platform, content_type: 'index_strip' });
+        }
+
         // FAQ accordion
         document.querySelectorAll('.faq-q').forEach(btn => {
             btn.addEventListener('click', () => {
